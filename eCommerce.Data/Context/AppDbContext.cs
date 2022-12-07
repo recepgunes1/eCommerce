@@ -15,15 +15,9 @@ namespace eCommerce.Data.Context
         public DbSet<ShoppingSession> ShoppingSessions { get; set; }
         public DbSet<User> Users { get; set; }
 
-        public AppDbContext()
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
 
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=localhost;Database=test;Trusted_Connection=True;Trust Server Certificate=true;");
-            base.OnConfiguring(optionsBuilder);
         }
     }
 }
