@@ -39,7 +39,7 @@ namespace eCommerce.Data.Repository.Concretes
             });
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null, params Expression<Func<T, object>>[] includeProperties)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null, params Expression<Func<T, object>>[] includeProperties)
         {
             IQueryable<T> query = Table;
             if (predicate != null)

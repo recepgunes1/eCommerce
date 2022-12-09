@@ -1,11 +1,6 @@
 ﻿using eCommerce.Data.Context;
 using eCommerce.Data.Repository.Abstractions;
 using eCommerce.Data.Repository.Concretes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eCommerce.Data.UnitOfWorks
 {

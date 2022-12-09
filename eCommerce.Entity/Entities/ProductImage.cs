@@ -1,6 +1,6 @@
 ﻿using eCommerce.Core.Entities;
 
-namespace Database.Models
+namespace eCommerce.Entity.Entities
 {
     public class ProductImage : EntityBase
     {

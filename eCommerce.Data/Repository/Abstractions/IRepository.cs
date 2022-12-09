@@ -6,7 +6,7 @@ namespace eCommerce.Data.Repository.Abstractions
     public interface IRepository<T> where T : class, IEntityBase, new()
     {
         Task AddAsync(T Entity);
-        Task<IEnumerable<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null, params Expression<Func<T, object>>[] includeProperties);
+        Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate = null, params Expression<Func<T, object>>[] includeProperties);
         Task<T> GetAsync(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includeProperties);
         Task<T> GetByGuidAsync(Guid guid);
         Task<T> UpdateAsync(T Entity);

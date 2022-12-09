@@ -1,15 +1,15 @@
-﻿using eCommerce.Core.Entities;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace Database.Models
+namespace eCommerce.Entity.Entities
 {
-    public class User : EntityBase
+    public class User : IdentityUser<Guid>
     {
-        public string? FirstName { get; set; }
+        public string FirstName { get; set; }
 
-        public string? LastName { get; set; }
+        public string LastName { get; set; }
 
         public DateTime DateBirth { get; set; }
-        public string? Address { get; set; }
+        public string Address { get; set; }
 
         public IEnumerable<Comment> Comments { get; set; }
 

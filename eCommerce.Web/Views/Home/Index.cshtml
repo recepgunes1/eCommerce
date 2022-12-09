@@ -1,0 +1,15 @@
+﻿@using eCommerce.Entity.Entities;
+@model List<Product>
+
+<html>
+    <head>
+        <title>test</title>
+    </head>
+    <body>
+    @foreach (var product in Model)
+    {
+        @product.Name
+        <hr/>
+    }
+    </body>
+</html>
