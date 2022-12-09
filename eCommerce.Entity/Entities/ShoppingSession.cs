@@ -9,6 +9,6 @@ namespace eCommerce.Entity.Entities
         public Guid UserId { get; set; }
         public User? User { get; set; }
 
-        public IEnumerable<Card> Cards { get; set; }
+        public IEnumerable<Cart> Carts { get; set; }
     }
 }

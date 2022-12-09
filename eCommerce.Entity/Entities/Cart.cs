@@ -2,7 +2,7 @@
 
 namespace eCommerce.Entity.Entities
 {
-    public class Card : EntityBase
+    public class Cart : EntityBase
     {
         public bool IsVisible { get; set; }
 
