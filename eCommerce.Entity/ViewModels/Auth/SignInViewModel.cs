@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebUI.Models.ViewModels.Account
+namespace eCommerce.Entity.ViewModels.Auth
 {
     public class SignInViewModel
     {
