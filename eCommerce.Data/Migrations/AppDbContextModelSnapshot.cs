@@ -34,6 +34,9 @@ namespace eCommerce.Data.Migrations
                     b.Property<byte[]>("Icon")
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -50,6 +53,9 @@ namespace eCommerce.Data.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsVisible")
                         .HasColumnType("bit");
@@ -78,6 +84,9 @@ namespace eCommerce.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -102,6 +111,9 @@ namespace eCommerce.Data.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsVisible")
                         .HasColumnType("bit");
@@ -130,6 +142,9 @@ namespace eCommerce.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<byte[]>("Picture")
                         .HasColumnType("varbinary(max)");
 
@@ -155,6 +170,9 @@ namespace eCommerce.Data.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -185,6 +203,9 @@ namespace eCommerce.Data.Migrations
 
                     b.Property<Guid>("ImageId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
@@ -229,14 +250,14 @@ namespace eCommerce.Data.Migrations
                         new
                         {
                             Id = new Guid("ee19984b-50e6-42c6-8b3c-89e578a69625"),
-                            ConcurrencyStamp = "2c2a1830-4918-4c47-96f9-2da1fba17bdb",
+                            ConcurrencyStamp = "023761f8-d1b5-401f-b84e-e7269152ef20",
                             Name = "customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
                             Id = new Guid("5d9fb419-99c9-4d2a-9f22-4b95f70a6861"),
-                            ConcurrencyStamp = "ea91d8a1-f014-49f3-bff0-326238489ecb",
+                            ConcurrencyStamp = "85600be8-1bdc-47cd-b602-bb24481a87d7",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -274,6 +295,9 @@ namespace eCommerce.Data.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -342,6 +366,23 @@ namespace eCommerce.Data.Migrations
                         .HasDatabaseName("EmailIndex");
 
                     b.ToTable("Users", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("71a153a8-6da3-4bec-8538-7ea03e273eae"),
+                            AccessFailedCount = 0,
+                            Address = "çermik",
+                            ConcurrencyStamp = "aaac368d-e509-4c70-af01-3126937c98fb",
+                            DateBirth = new DateTime(2000, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "admin@system.com",
+                            FirstName = "admin",
+                            LastName = "admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@SYSTEM.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAEI6VAmiRcNXuwdYfGrecDEEN8JgfXPgJn0+KcOr6E9W9lbpcLtMRoM5XWEhXky1mrg==",
+                            SecurityStamp = "b6011237-df34-4233-ade6-431ccdad85df"
+                        });
                 });
 
             modelBuilder.Entity("eCommerce.Entity.Entities.UserClaim", b =>
@@ -402,6 +443,13 @@ namespace eCommerce.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("71a153a8-6da3-4bec-8538-7ea03e273eae"),
+                            RoleId = new Guid("5d9fb419-99c9-4d2a-9f22-4b95f70a6861")
+                        });
                 });
 
             modelBuilder.Entity("eCommerce.Entity.Entities.UserToken", b =>
