@@ -1,0 +1,49 @@
+﻿@model UpdateCategoryViewModel
+@{
+    ViewBag.Title = "Update Category";
+}
+<div class="m-5">
+    @using (Html.BeginForm("Update", "Category", method: FormMethod.Post, new { Area = "Admin" }))
+    {
+        <div class="row mb-3">
+            <div class="col-6 border-bottom">
+                <h3>Update Category</h3>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-1">
+                @Html.LabelFor(p => p.Id)
+            </div>
+            <div class="col-5">
+                @Html.TextBoxFor(p => p.Id, new {@class = "form-control", @disabled = "disabled"})
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-1">
+                @Html.LabelFor(p => p.Categories)
+            </div>
+            <div class="col-5">
+                <select class="form-select" asp-for="ParentCategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))"></select>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-1">
+                @Html.LabelFor(p => p.Name)
+            </div>
+
+            <div class="col-5">
+                @Html.TextBoxFor(p => p.Name, new {@class = "form-control", @value = Html.DisplayNameFor(p => p.Name)})
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-6">
+                <input type="submit" value="Update" class="btn btn-primary w-100">
+            </div>
+        </div>
+        @Html.ValidationSummary(null, new {@class = "text-danger"})
+    }
+</div>

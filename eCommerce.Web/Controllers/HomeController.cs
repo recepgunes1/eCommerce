@@ -14,7 +14,7 @@ namespace eCommerce.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var products = await product.GetAllProductsAsync();
+            var products = await product.GetAllProductsWithBrandAsync();
             return View(products);
         }
     }

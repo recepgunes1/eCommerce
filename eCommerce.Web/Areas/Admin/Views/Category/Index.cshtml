@@ -1,0 +1,35 @@
+﻿@model IEnumerable<CategoryViewModel>
+@{
+    ViewBag.Title = "Categories";
+}
+<table class="table table-bordered table-striped m-5">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Parent Name</th>
+            <th>Created Date</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var category in Model)
+        {
+            <tr>
+                <td>@category.Name</td>
+                <td>@(category.ParentCategory?.Name ?? "NULL")</td>
+                <td>@category.CreatedDate</td>
+                <td>
+                    <a class="btn btn-danger" asp-action="Delete" asp-controller="Category" asp-area="Admin" asp-route-Id="@category.Id">Delete</a>
+                    <a class="btn btn-success" asp-action="Update" asp-controller="Category" asp-area="Admin" asp-route-Id="@category.Id">Update</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3">
+                <a class="btn btn-primary w-25" asp-action="Add" asp-controller="Category" asp-area="Admin">Add</a>
+            </td>
+        </tr>
+    </tfoot>
+</table>

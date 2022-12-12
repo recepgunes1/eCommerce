@@ -1,0 +1,66 @@
+﻿@model SignUpViewModel
+
+@{
+    ViewBag.Title = "Sign Up";
+    ViewBag.Current = "Register";
+}
+
+@using (Html.BeginForm("Register", "Home", method: FormMethod.Post, new { Area = "Auth" }))
+{
+    <div class="row mb-3">
+        <div class="col">
+            @Html.TextBoxFor(p => p.FirstName, new {@class = "form-control", @placeholder = Html.DisplayNameFor(p => p.FirstName)})
+        </div>
+        <div class="col">
+            @Html.TextBoxFor(p => p.LastName, new {@class = "form-control", @placeholder = Html.DisplayNameFor(p => p.LastName)})
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            @Html.TextBoxFor(p => p.EMail, new {@class = "form-control", @placeholder = Html.DisplayNameFor(p => p.EMail)})
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            @Html.PasswordFor(p => p.Password, new {@class = "form-control", @placeholder = Html.DisplayNameFor(p => p.Password)})
+        </div>
+        <div class="col">
+            @Html.PasswordFor(p => p.PasswordConfirm, new {@class = "form-control", @placeholder = Html.DisplayNameFor(p => p.PasswordConfirm)})
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            @Html.TextBoxFor(p => p.DateBirth, new {@class = "form-control", @placeholder = Html.DisplayNameFor(p => p.DateBirth)})
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            @Html.TextAreaFor(p => p.Address, new {@class = "form-control", @placeholder = Html.DisplayNameFor(p => p.Address)})
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            @Html.CheckBoxFor(p => p.TermsOfService, new {@class = "form-check-input"})
+            @Html.LabelFor(p => p.TermsOfService, new {@class = "form-check-label"})
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            @Html.CheckBoxFor(p => p.ReceiveMessages, new {@class = "form-check-input"})
+            @Html.LabelFor(p => p.ReceiveMessages, new {@class = "form-check-label"})
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <input type="submit" value="Sign Up" class="btn btn-primary w-100">
+        </div>
+    </div>
+    @Html.ValidationSummary(null, new {@class = "text-danger"})
+}

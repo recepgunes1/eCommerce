@@ -12,7 +12,7 @@ using eCommerce.Data.Context;
 namespace eCommerce.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221212103833_Initial")]
+    [Migration("20221212183854_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -41,9 +41,14 @@ namespace eCommerce.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("NameIndex")
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Brands");
                 });
@@ -91,12 +96,17 @@ namespace eCommerce.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid?>("ParentCategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("NameIndex")
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.HasIndex("ParentCategoryId");
 
@@ -253,14 +263,14 @@ namespace eCommerce.Data.Migrations
                         new
                         {
                             Id = new Guid("ee19984b-50e6-42c6-8b3c-89e578a69625"),
-                            ConcurrencyStamp = "023761f8-d1b5-401f-b84e-e7269152ef20",
+                            ConcurrencyStamp = "a9bedbbc-c5f0-4134-aa33-73c179507ee1",
                             Name = "customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
                             Id = new Guid("5d9fb419-99c9-4d2a-9f22-4b95f70a6861"),
-                            ConcurrencyStamp = "85600be8-1bdc-47cd-b602-bb24481a87d7",
+                            ConcurrencyStamp = "8c70bd40-9792-49c0-bc60-408274082814",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -357,16 +367,29 @@ namespace eCommerce.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("Users", (string)null);
 
@@ -376,15 +399,17 @@ namespace eCommerce.Data.Migrations
                             Id = new Guid("71a153a8-6da3-4bec-8538-7ea03e273eae"),
                             AccessFailedCount = 0,
                             Address = "çermik",
-                            ConcurrencyStamp = "aaac368d-e509-4c70-af01-3126937c98fb",
+                            ConcurrencyStamp = "0a28c051-5518-47be-9544-2913714b794a",
                             DateBirth = new DateTime(2000, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@system.com",
                             FirstName = "admin",
                             LastName = "admin",
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@SYSTEM.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEI6VAmiRcNXuwdYfGrecDEEN8JgfXPgJn0+KcOr6E9W9lbpcLtMRoM5XWEhXky1mrg==",
-                            SecurityStamp = "b6011237-df34-4233-ade6-431ccdad85df"
+                            NormalizedUserName = "ADMIN@SYSTEM.COM",
+                            PasswordHash = "AQAAAAIAAYagAAAAENbsE1X4QcOYBv9J29H6F3+4y3FBBObJzd46iSL0AmH0QEG9akvC1lesGfKbrpb3+A==",
+                            SecurityStamp = "bc62536a-06b9-46b9-a897-fc4f6b740ab0",
+                            UserName = "admin@system.com"
                         });
                 });
 

@@ -9,16 +9,16 @@ namespace eCommerce.Data.Mappings
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-
+            builder.HasIndex(u => u.NormalizedUserName).HasName("UserNameIndex").IsUnique();
             builder.HasIndex(u => u.NormalizedEmail).HasName("EmailIndex");
 
             builder.Property(u => u.ConcurrencyStamp).IsConcurrencyToken();
 
             builder.Property(u => u.Email).HasMaxLength(256);
             builder.Property(u => u.NormalizedEmail).HasMaxLength(256);
+            builder.Property(p => p.UserName).HasMaxLength(256);
+            builder.Property(p => p.NormalizedUserName).HasMaxLength(256);
 
-            builder.Ignore(p => p.UserName);
-            builder.Ignore(p => p.NormalizedUserName);
             builder.Ignore(p => p.EmailConfirmed);
             builder.Ignore(p => p.PhoneNumber);
             builder.Ignore(p => p.PhoneNumberConfirmed);
@@ -43,6 +43,8 @@ namespace eCommerce.Data.Mappings
                 Address = "çermik",
                 Email = "admin@system.com",
                 NormalizedEmail = "ADMIN@SYSTEM.COM",
+                UserName = "admin@system.com",
+                NormalizedUserName = "ADMIN@SYSTEM.COM",
                 SecurityStamp = Guid.NewGuid().ToString()
             };
             admin.PasswordHash = CreatePasswordHash(admin, "123456");

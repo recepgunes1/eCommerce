@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -18,7 +17,7 @@ namespace eCommerce.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Icon = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -33,7 +32,7 @@ namespace eCommerce.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     ParentCategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -85,6 +84,8 @@ namespace eCommerce.Data.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -346,19 +347,26 @@ namespace eCommerce.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("5d9fb419-99c9-4d2a-9f22-4b95f70a6861"), "85600be8-1bdc-47cd-b602-bb24481a87d7", "admin", "ADMIN" },
-                    { new Guid("ee19984b-50e6-42c6-8b3c-89e578a69625"), "023761f8-d1b5-401f-b84e-e7269152ef20", "customer", "CUSTOMER" }
+                    { new Guid("5d9fb419-99c9-4d2a-9f22-4b95f70a6861"), "8c70bd40-9792-49c0-bc60-408274082814", "admin", "ADMIN" },
+                    { new Guid("ee19984b-50e6-42c6-8b3c-89e578a69625"), "a9bedbbc-c5f0-4134-aa33-73c179507ee1", "customer", "CUSTOMER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "DateBirth", "Email", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "PasswordHash", "SecurityStamp" },
-                values: new object[] { new Guid("71a153a8-6da3-4bec-8538-7ea03e273eae"), 0, "çermik", "aaac368d-e509-4c70-af01-3126937c98fb", new DateTime(2000, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@system.com", "admin", "admin", false, null, "ADMIN@SYSTEM.COM", "AQAAAAIAAYagAAAAEI6VAmiRcNXuwdYfGrecDEEN8JgfXPgJn0+KcOr6E9W9lbpcLtMRoM5XWEhXky1mrg==", "b6011237-df34-4233-ade6-431ccdad85df" });
+                columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "DateBirth", "Email", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "SecurityStamp", "UserName" },
+                values: new object[] { new Guid("71a153a8-6da3-4bec-8538-7ea03e273eae"), 0, "çermik", "0a28c051-5518-47be-9544-2913714b794a", new DateTime(2000, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@system.com", "admin", "admin", false, null, "ADMIN@SYSTEM.COM", "ADMIN@SYSTEM.COM", "AQAAAAIAAYagAAAAENbsE1X4QcOYBv9J29H6F3+4y3FBBObJzd46iSL0AmH0QEG9akvC1lesGfKbrpb3+A==", "bc62536a-06b9-46b9-a897-fc4f6b740ab0", "admin@system.com" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[] { new Guid("5d9fb419-99c9-4d2a-9f22-4b95f70a6861"), new Guid("71a153a8-6da3-4bec-8538-7ea03e273eae") });
+
+            migrationBuilder.CreateIndex(
+                name: "NameIndex",
+                table: "Brands",
+                column: "Name",
+                unique: true,
+                filter: "[Name] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Carts_ProductId",
@@ -374,6 +382,13 @@ namespace eCommerce.Data.Migrations
                 name: "IX_Categories_ParentCategoryId",
                 table: "Categories",
                 column: "ParentCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "NameIndex",
+                table: "Categories",
+                column: "Name",
+                unique: true,
+                filter: "[Name] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_ProductId",
@@ -441,6 +456,13 @@ namespace eCommerce.Data.Migrations
                 name: "EmailIndex",
                 table: "Users",
                 column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "Users",
+                column: "NormalizedUserName",
+                unique: true,
+                filter: "[NormalizedUserName] IS NOT NULL");
         }
 
         /// <inheritdoc />

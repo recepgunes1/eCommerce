@@ -1,0 +1,39 @@
+﻿@model SignInViewModel
+@{
+    ViewBag.Title = "Sign In";
+    ViewBag.Current = "Login";
+}
+
+@using (Html.BeginForm("Login", "Home", method: FormMethod.Post, new { Area = "Auth" }))
+{
+    <div class="row mb-3">
+        <div class="col">
+            @Html.TextBoxFor(p => p.EMail, new {@class = "form-control", @placeholder = Html.DisplayNameFor(p => p.EMail)})
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            @Html.PasswordFor(p => p.Password, new {@class = "form-control", @placeholder = Html.DisplayNameFor(p => p.Password)})
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <div class="form-check">
+                @Html.CheckBoxFor(p => p.RememberMe, new {@class = "form-check-input"})
+                @Html.LabelFor(p => p.RememberMe, new {@class = "form-check-label"})
+
+            </div>
+        </div>
+        <div class="col">
+            Reset Password
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <input type="submit" value="Sign In" class="btn btn-primary w-100">
+        </div>
+    </div>
+    @Html.ValidationSummary(null, new {@class = "text-danger"})
+}

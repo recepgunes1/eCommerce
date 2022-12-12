@@ -1,0 +1,33 @@
+﻿@model IEnumerable<BrandDetailedViewModel>
+@{
+    ViewBag.Title = "Brands";
+}
+<table class="table table-bordered table-striped m-5">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Created Date</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var brand in Model)
+        {
+            <tr>
+                <td>@brand.Name</td>
+                <td>@brand.CreatedDate</td>
+                <td>
+                    <a class="btn btn-danger" asp-action="Delete" asp-controller="Brand" asp-area="Admin" asp-route-Id="@brand.Id">Delete</a>
+                    <a class="btn btn-success" asp-action="Update" asp-controller="Brand" asp-area="Admin" asp-route-Id="@brand.Id">Update</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3">
+                <a class="btn btn-primary w-25" asp-action="Add" asp-controller="Brand" asp-area="Admin">Add</a>
+            </td>
+        </tr>
+    </tfoot>
+</table>

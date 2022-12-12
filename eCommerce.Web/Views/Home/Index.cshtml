@@ -1,15 +1,17 @@
-﻿@using eCommerce.Entity.Entities;
-@model List<Product>
-
-<html>
-    <head>
-        <title>test</title>
-    </head>
-    <body>
-    @foreach (var product in Model)
-    {
-        @product.Name
-        <hr/>
-    }
-    </body>
-</html>
+﻿@model List<ProductViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container">
+    <table class="table table-bordered m-2 text-break">
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Quantity Adet</td>
+                <td>@product.Price.ToString("N2") ₺</td>
+                <td>@product.Brand.Name</td>
+            </tr>
+        }
+    </table>
+</div>

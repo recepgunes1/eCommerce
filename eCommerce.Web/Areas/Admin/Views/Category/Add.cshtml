@@ -1,0 +1,30 @@
+﻿@model AddCategoryViewModel
+@{
+    ViewBag.Title = "Add a New Category";
+}
+
+<div class="m-5">
+    <form asp-action="Add" asp-controller="Category" asp-area="Admin" method="post" enctype="multipart/form-data">
+        <div class="row mb-3">
+            <div class="col-6 border-bottom">
+                <h3>Add a New Category</h3>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-1">
+                @Html.LabelFor(p => p.Name)
+            </div>
+            <div class="col-5">
+                @Html.TextBoxFor(p => p.Name, new {@class = "form-control", @value = Html.DisplayNameFor(p => p.Name)})
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-6">
+                <input type="submit" value="Add" class="btn btn-primary w-100">
+            </div>
+        </div>
+        @Html.ValidationSummary(null, new {@class = "text-danger"})
+    </form>
+</div>
