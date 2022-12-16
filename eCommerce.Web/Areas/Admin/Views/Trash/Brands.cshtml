@@ -1,0 +1,25 @@
+﻿@model IEnumerable<BrandViewModel>
+@{
+    ViewBag.Title = "Brand Trashbox";
+}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Created Date</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var brand in Model)
+        {
+            <tr>
+                <td>@brand.Name</td>
+                <td>@brand.CreatedDate</td>
+                <td>
+                    <a class="btn btn-warning" asp-action="RestoreBrand" asp-controller="Trash" asp-area="Admin" asp-route-Id="@brand.Id">Restore</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

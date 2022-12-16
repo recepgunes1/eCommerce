@@ -8,10 +8,11 @@ namespace eCommerce.Service.AutoMapper.Brands
     {
         public BrandProfile()
         {
+            CreateMap<Brand, SimpleBrandViewModel>().ReverseMap();
             CreateMap<Brand, BrandViewModel>().ReverseMap();
-            CreateMap<Brand, BrandDetailedViewModel>().ReverseMap();
-            CreateMap<BrandDetailedViewModel, UpdateBrandViewModel>().ReverseMap();
             CreateMap<Brand, AddBrandViewModel>().ReverseMap();
+            CreateMap<BrandViewModel, UpdateBrandViewModel>().ReverseMap();
+            CreateMap<BrandViewModel, SimpleBrandViewModel>().ReverseMap();
         }
     }
 }

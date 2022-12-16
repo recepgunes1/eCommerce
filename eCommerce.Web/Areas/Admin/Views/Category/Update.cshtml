@@ -25,7 +25,7 @@
                 @Html.LabelFor(p => p.Categories)
             </div>
             <div class="col-5">
-                <select class="form-select" asp-for="ParentCategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))"></select>
+                <select class="form-select" asp-for="NewParentCategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name", Model.ParentCategory?.Id))" disabled="@(!ViewBag.HasSubCategory)"></select>
             </div>
         </div>
 

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<CommentViewModel>
+@{
+    ViewBag.Title = "Comment Trash";
+}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Content</th>
+            <th>Visibilty</th>
+            <th>Product</th>
+            <th>User</th>
+            <th>Operation</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var comment in Model)
+        {
+            <tr>
+                <td>@comment.Content</td>
+                <td>@comment.IsVisible</td>
+                <td>@comment.Product.Name</td>
+                <td>@comment.User.FirstName @comment.User.LastName</td>
+                <td>
+                    <a class="btn btn-warning" asp-action="RestoreComment" asp-controller="Trash" asp-area="Admin" asp-route-Id="@comment.Id">Restore</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

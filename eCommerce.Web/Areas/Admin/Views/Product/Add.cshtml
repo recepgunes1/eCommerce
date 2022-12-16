@@ -1,0 +1,75 @@
+﻿@model AddProductViewModel
+@{
+    ViewBag.Title = "Add a New Product";
+}
+
+<div class="m-5">
+    <form asp-action="Add" asp-controller="Product" asp-area="Admin" method="post" enctype="multipart/form-data">
+        <div class="row mb-3">
+            <div class="col-6 border-bottom">
+                <h3>Add a New Product</h3>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-1">
+                <label class="form-label" asp-for="Name"></label>
+            </div>
+            <div class="col-5">
+                <input class="form-control" type="text" asp-for="Name" />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-1">
+                <label class="form-label" asp-for="Description"></label>
+            </div>
+            <div class="col-5">
+                <textarea class="form-control" asp-for="Description"></textarea>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-1">
+                <label class="form-label" asp-for="Quantity"></label>
+            </div>
+            <div class="col-5">
+                <input class="form-control" type="number" asp-for="Quantity" />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-1">
+                <label class="form-label" asp-for="Price"></label>
+            </div>
+            <div class="col-5">
+                <input class="form-control" type="text" asp-for="Price" />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-1">
+                <label class="form-label" asp-for="CategoryId"></label>
+            </div>
+            <div class="col-5">
+                <select class="form-select" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name", Model.CategoryId))"></select>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-1">
+                <label class="form-label" asp-for="CategoryId"></label>
+            </div>
+            <div class="col-5">
+                <select class="form-select" asp-for="BrandId" asp-items="@(new SelectList(Model.Brands, "Id", "Name", Model.BrandId))"></select>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-6">
+                <input type="submit" value="Add" class="btn btn-primary w-50">
+            </div>
+        </div>
+        @Html.ValidationSummary(null, new {@class = "text-danger"})
+    </form>
+</div>

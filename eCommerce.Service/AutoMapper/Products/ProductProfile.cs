@@ -8,7 +8,10 @@ namespace eCommerce.Service.AutoMapper.Products
     {
         public ProductProfile()
         {
+            CreateMap<Product, AddProductViewModel>().ReverseMap();
             CreateMap<Product, ProductViewModel>().ReverseMap();
+            CreateMap<Product, SimpleProductViewModel>().ReverseMap();
+            CreateMap<ProductViewModel, UpdateProductViewModel>().ReverseMap();
         }
     }
 }

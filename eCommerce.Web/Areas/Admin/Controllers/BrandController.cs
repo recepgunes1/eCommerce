@@ -11,11 +11,13 @@ namespace eCommerce.Web.Areas.Admin.Controllers
     public class BrandController : Controller
     {
         private readonly IBrandService brandService;
+        private readonly IProductService productService;
         private readonly IMapper mapper;
 
-        public BrandController(IBrandService brandService, IMapper mapper)
+        public BrandController(IBrandService brandService, IProductService productService, IMapper mapper)
         {
             this.brandService = brandService;
+            this.productService = productService;
             this.mapper = mapper;
         }
 
@@ -43,7 +45,7 @@ namespace eCommerce.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Update(Guid Id)
         {
-            var brand = await brandService.GetBrandAsync(Id);
+            var brand = await brandService.GetBrandByGuidAsync(Id);
             var mappedBrand = mapper.Map<UpdateBrandViewModel>(brand);
             return View(mappedBrand);
         }
@@ -60,7 +62,13 @@ namespace eCommerce.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Delete(Guid Id)
         {
+            var brand = await brandService.GetBrandByGuidAsync(Id);
             await brandService.DeleteBrandAsync(Id);
+            var products = await productService.GetAllProductsToBrandNonDeletedAsync(brand);
+            foreach (var product in products)
+            {
+                await productService.DeleteProductAsync(product.Id);
+            }
             return RedirectToAction("Index");
         }
 

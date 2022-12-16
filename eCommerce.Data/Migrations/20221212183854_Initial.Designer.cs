@@ -98,7 +98,7 @@ namespace eCommerce.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid?>("ParentCategoryId")
+                    b.Property<Guid?>("NewParentCategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -108,7 +108,7 @@ namespace eCommerce.Data.Migrations
                         .HasDatabaseName("NameIndex")
                         .HasFilter("[Name] IS NOT NULL");
 
-                    b.HasIndex("ParentCategoryId");
+                    b.HasIndex("NewParentCategoryId");
 
                     b.ToTable("Categories");
                 });
@@ -522,7 +522,7 @@ namespace eCommerce.Data.Migrations
                 {
                     b.HasOne("eCommerce.Entity.Entities.Category", "ParentCategory")
                         .WithMany()
-                        .HasForeignKey("ParentCategoryId");
+                        .HasForeignKey("NewParentCategoryId");
 
                     b.Navigation("ParentCategory");
                 });

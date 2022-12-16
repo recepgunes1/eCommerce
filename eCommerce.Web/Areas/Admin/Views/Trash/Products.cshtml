@@ -1,0 +1,31 @@
+﻿@model IEnumerable<ProductViewModel>
+@{
+    ViewBag.Title = "Product Trash";
+}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Brand</th>
+            <th>Category</th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.Quantity</td>
+                <td>@product.Brand.Name</td>
+                <td>@product.Category.Name</td>
+                <td>
+                    <a class="btn btn-warning" asp-action="RestoreProduct" asp-controller="Trash" asp-area="Admin" asp-route-Id="@product.Id">Restore</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

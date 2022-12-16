@@ -11,11 +11,13 @@ namespace eCommerce.Web.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryService categoryService;
+        private readonly IProductService productService;
         private readonly IMapper mapper;
 
-        public CategoryController(ICategoryService categoryService, IMapper mapper)
+        public CategoryController(ICategoryService categoryService, IProductService productService, IMapper mapper)
         {
             this.categoryService = categoryService;
+            this.productService = productService;
             this.mapper = mapper;
         }
 
@@ -27,24 +29,33 @@ namespace eCommerce.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Delete(Guid id)
         {
+            var category = await categoryService.GetCategoryByGuidAsync(id);
+            var products = await productService.GetAllProductsToCategoryNonDeletedAsync(category);
             await categoryService.DeleteCategoryAsync(id);
+            foreach (var product in products)
+            {
+                await productService.DeleteProductAsync(product.Id);
+            }
             return RedirectToAction("Index", "Category", new { Area = "Admin" });
         }
 
         public async Task<IActionResult> Update(Guid id)
         {
             var category = await categoryService.GetCategoryByGuidAsync(id);
-            var parentCategories = await categoryService.GetParentCategoriesNonDeletedAsync();
+            var parentCategories = await categoryService.GetParentCategoriesNonDeletedAsync(category);
+            var subCategories = await categoryService.GetSubCategoriesNonDeletedAsync(id);
             var mappedCategory = mapper.Map<UpdateCategoryViewModel>(category);
             mappedCategory.Categories = mapper.Map<IEnumerable<SimpleCategoryViewModel>>(parentCategories);
+            mappedCategory.Categories = mappedCategory.Categories.Concat(new[] { new SimpleCategoryViewModel() { Id = Guid.Empty } });
+            ViewData["HasSubCategory"] = subCategories.Count() == 0;
             return View(mappedCategory);
         }
 
         [HttpPost]
         public async Task<IActionResult> Update(UpdateCategoryViewModel viewModel)
         {
-            var categories = await categoryService.GetAllCategoriesNonDeletedAsync();
-            return View();
+            await categoryService.UpdateCategoryAsync(viewModel);
+            return RedirectToAction("Index", "Category", new { Area = "Admin" });
         }
 
         public async Task<IActionResult> Add()
@@ -57,7 +68,7 @@ namespace eCommerce.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Add(AddCategoryViewModel viewModel)
         {
             await categoryService.AddCategoryAsync(viewModel);
-            return RedirectToAction("Index", "Category", new {Area = "Admin"});
+            return RedirectToAction("Index", "Category", new { Area = "Admin" });
         }
 
     }

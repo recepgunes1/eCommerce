@@ -16,40 +16,70 @@
                 </div>
                 <ul class="list-group">
                     <li class="list-group-item list-group-item-action active">
-                        <a class="link-light" asp-action="Index" asp-controller="Home" asp-area="Admin">
+                        <a class="link-light text-decoration-none" asp-action="Index" asp-controller="Home" asp-area="Admin">
                             Dashboard
                         </a>
                     </li>
                     <li class="list-group-item list-group-item-action">
-                        <a asp-action="Index" asp-controller="Brand" asp-area="Admin">
+                        <a class="text-decoration-none" asp-action="Index" asp-controller="Brand" asp-area="Admin">
                             Brands
                         </a>
                     </li>
                     <li class="list-group-item list-group-item-action">
-                        <a asp-action="Index" asp-controller="Category" asp-area="Admin">
+                        <a class="text-decoration-none" asp-action="Index" asp-controller="Category" asp-area="Admin">
                             Categories
                         </a>
                     </li>
                     <li class="list-group-item list-group-item-action">
-                        Comments
+                        <a class="text-decoration-none" asp-action="Index" asp-controller="Comment" asp-area="Admin">
+                            Comments
+                        </a>
                     </li>
                     <li class="list-group-item list-group-item-action">
-                        Products
+                        <a class="text-decoration-none" asp-action="Index" asp-controller="Product" asp-area="Admin">
+                            Products
+                        </a>
                     </li>
                     <li class="list-group-item list-group-item-action">
-                        Users
+                        <a class="text-decoration-none">
+                            Users
+                        </a>
                     </li>
                     <li class="list-group-item list-group-item-action">
-                        Orders
+                        <a class="text-decoration-none">
+                            Orders
+                        </a>
+
                     </li>
-                    <li class="list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="collapse" data-bs-target="#collapseTrashbox" aria-expanded="false" aria-controls="collapseTrashbox">
-                        <span class="fw-bolder">TrashBox</span>
-                        <div class="collapse mt-3 ms-3" id="collapseTrashbox">
+                    <li class="list-group-item list-group-item-action list-group-item-danger">
+                        <div class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#collapseTrash" aria-expanded="false" aria-controls="collapseTrash">Trash</div>
+                        <div class="collapse mt-3 ms-3" id="collapseTrash">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item list-group-item-action list-group-item-danger">Users</li>
-                                <li class="list-group-item list-group-item-action list-group-item-danger">Comments</li>
-                                <li class="list-group-item list-group-item-action list-group-item-danger">Categories</li>
-                                <li class="list-group-item list-group-item-action list-group-item-danger">Brands</li>
+                                <li class="list-group-item list-group-item-action list-group-item-danger">
+                                    <a class="text-decoration-none text-danger fw-bold" class="d-block" asp-action="Brands" asp-controller="Trash" asp-area="Admin">
+                                        Brands
+                                    </a>
+                                </li>
+                                <li class="list-group-item list-group-item-action list-group-item-danger">
+                                    <a class="text-decoration-none text-danger fw-bold" asp-action="Categories" asp-controller="Trash" asp-area="Admin">
+                                        Categories
+                                    </a>
+                                </li>
+                                <li class="list-group-item list-group-item-action list-group-item-danger">
+                                    <a class="text-decoration-none text-danger fw-bold" asp-action="Comments" asp-controller="Trash" asp-area="Admin">
+                                        Comments
+                                    </a>
+                                </li>
+                                <li class="list-group-item list-group-item-action list-group-item-danger">
+                                    <a class="text-decoration-none text-danger fw-bold" asp-action="Products" asp-controller="Trash" asp-area="Admin">
+                                        Products
+                                    </a>
+                                </li>
+                                <li class="list-group-item list-group-item-action list-group-item-danger">
+                                    <a class="text-decoration-none text-danger fw-bold" asp-action="Users" asp-controller="Trash" asp-area="Admin">
+                                        Users
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -59,7 +89,11 @@
                 </div>
             </div>
             <div class="col-9 p-5">
-                @RenderBody()
+                <div class="m-5">
+                    <h3>@ViewBag.Title</h3>
+                    <hr />
+                    @RenderBody()
+                </div>
             </div>
         </div>
     </div>

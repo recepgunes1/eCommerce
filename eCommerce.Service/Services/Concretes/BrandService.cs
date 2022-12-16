@@ -31,18 +31,32 @@ namespace eCommerce.Service.Services.Concretes
             await unitOfWork.SaveAsync();
         }
 
-        public async Task<IEnumerable<BrandDetailedViewModel>> GetAllBrandsNonDeletedAsync()
+        public async Task<IEnumerable<BrandViewModel>> GetAllBrandsDeletedAsync()
         {
-            var brands = await unitOfWork.GetRepository<Brand>().GetAllAsync(p => !p.IsDeleted);
-            var mappedBrands = mapper.Map<IEnumerable<BrandDetailedViewModel>>(brands);
+            var brands = await unitOfWork.GetRepository<Brand>().GetAllAsync(p => p.IsDeleted);
+            var mappedBrands = mapper.Map<IEnumerable<BrandViewModel>>(brands);
             return mappedBrands;
         }
 
-        public async Task<BrandDetailedViewModel> GetBrandAsync(Guid Id)
+        public async Task<IEnumerable<BrandViewModel>> GetAllBrandsNonDeletedAsync()
+        {
+            var brands = await unitOfWork.GetRepository<Brand>().GetAllAsync(p => !p.IsDeleted);
+            var mappedBrands = mapper.Map<IEnumerable<BrandViewModel>>(brands);
+            return mappedBrands;
+        }
+
+        public async Task<BrandViewModel> GetBrandByGuidAsync(Guid Id)
         {
             var brand = await unitOfWork.GetRepository<Brand>().GetByGuidAsync(Id);
-            var mappedBrand = mapper.Map<BrandDetailedViewModel>(brand);
+            var mappedBrand = mapper.Map<BrandViewModel>(brand);
             return mappedBrand;
+        }
+
+        public async Task RestoreBrandAsync(Guid id)
+        {
+            var brand = await unitOfWork.GetRepository<Brand>().GetByGuidAsync(id);
+            brand.IsDeleted = false;
+            await unitOfWork.SaveAsync();
         }
 
         public async Task UpdateBrandAsync(UpdateBrandViewModel viewModel)

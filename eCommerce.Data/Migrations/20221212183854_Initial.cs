@@ -381,7 +381,7 @@ namespace eCommerce.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_ParentCategoryId",
                 table: "Categories",
-                column: "ParentCategoryId");
+                column: "NewParentCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "NameIndex",

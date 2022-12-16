@@ -11,6 +11,7 @@ namespace eCommerce.Service.Extensions
         {
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;
