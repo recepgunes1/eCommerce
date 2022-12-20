@@ -8,6 +8,6 @@ namespace eCommerce.Entity.ViewModels.Brand
         [Required]
         public string Name { get; set; }
         [Required]
-        public IFormFile File { get; set; }
+        public IFormFile Photo { get; set; }
     }
 }

@@ -6,12 +6,6 @@
     @using (Html.BeginForm("Update", "Category", method: FormMethod.Post, new { Area = "Admin" }))
     {
         <div class="row mb-3">
-            <div class="col-6 border-bottom">
-                <h3>Update Category</h3>
-            </div>
-        </div>
-
-        <div class="row mb-3">
             <div class="col-1">
                 @Html.LabelFor(p => p.Id)
             </div>

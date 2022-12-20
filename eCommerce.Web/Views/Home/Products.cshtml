@@ -1,0 +1,13 @@
+﻿@using eCommerce.Entity.ViewModels.Product;
+@model IEnumerable<ProductViewModel>
+
+@foreach (var product in Model)
+{
+    <hr />
+    @product.Name
+    <hr />
+    @product.Brand.Name
+    <hr />
+    @product.Category.Name
+    <hr />
+}

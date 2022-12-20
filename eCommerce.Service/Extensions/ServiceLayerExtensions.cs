@@ -1,4 +1,5 @@
-﻿using eCommerce.Service.Services.Abstractions;
+﻿using eCommerce.Service.Helpers.Images;
+using eCommerce.Service.Services.Abstractions;
 using eCommerce.Service.Services.Concretes;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -12,6 +13,7 @@ namespace eCommerce.Service.Extensions
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IProductService, ProductService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;

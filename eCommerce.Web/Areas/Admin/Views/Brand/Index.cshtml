@@ -4,7 +4,8 @@
 }
 <table class="table table-bordered table-striped">
     <thead>
-        <tr>
+        <tr class="text-center">
+            <th>Icon</th>
             <th>Name</th>
             <th>Created Date</th>
             <th>Operations</th>
@@ -14,6 +15,7 @@
         @foreach (var brand in Model)
         {
             <tr>
+                <td><img class="mx-auto d-block img-thumbnail" src="~/images/@brand.Image.NameWithPath" style="height: 6em; width: 6em;" /> </td>
                 <td>@brand.Name</td>
                 <td>@brand.CreatedDate</td>
                 <td>
@@ -25,8 +27,8 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3">
-                <a class="btn btn-primary w-25" asp-action="Add" asp-controller="Brand" asp-area="Admin">Add</a>
+            <td colspan="4">
+                <a class="btn btn-primary w-50" asp-action="Add" asp-controller="Brand" asp-area="Admin">Add</a>
             </td>
         </tr>
     </tfoot>

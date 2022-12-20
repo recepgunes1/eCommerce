@@ -12,7 +12,7 @@ using eCommerce.Data.Context;
 namespace eCommerce.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221212183854_Initial")]
+    [Migration("20221216222732_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -34,8 +34,8 @@ namespace eCommerce.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<byte[]>("Icon")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<Guid?>("ImageId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -44,6 +44,8 @@ namespace eCommerce.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
 
                     b.HasIndex("Name")
                         .IsUnique()
@@ -98,7 +100,7 @@ namespace eCommerce.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid?>("NewParentCategoryId")
+                    b.Property<Guid?>("ParentCategoryId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -108,7 +110,7 @@ namespace eCommerce.Data.Migrations
                         .HasDatabaseName("NameIndex")
                         .HasFilter("[Name] IS NOT NULL");
 
-                    b.HasIndex("NewParentCategoryId");
+                    b.HasIndex("ParentCategoryId");
 
                     b.ToTable("Categories");
                 });
@@ -146,7 +148,7 @@ namespace eCommerce.Data.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("eCommerce.Entity.Entities.Image", b =>
+            modelBuilder.Entity("eCommerce.Entity.Entities.Photo", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -155,11 +157,16 @@ namespace eCommerce.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Extension")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<byte[]>("Picture")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("NameWithPath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -182,12 +189,14 @@ namespace eCommerce.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
@@ -263,14 +272,14 @@ namespace eCommerce.Data.Migrations
                         new
                         {
                             Id = new Guid("ee19984b-50e6-42c6-8b3c-89e578a69625"),
-                            ConcurrencyStamp = "a9bedbbc-c5f0-4134-aa33-73c179507ee1",
+                            ConcurrencyStamp = "b0fe5b1c-5a60-4807-9123-fab558cca380",
                             Name = "customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
                             Id = new Guid("5d9fb419-99c9-4d2a-9f22-4b95f70a6861"),
-                            ConcurrencyStamp = "8c70bd40-9792-49c0-bc60-408274082814",
+                            ConcurrencyStamp = "4898813f-f014-4240-a6ad-0ebd726db91a",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -399,7 +408,7 @@ namespace eCommerce.Data.Migrations
                             Id = new Guid("71a153a8-6da3-4bec-8538-7ea03e273eae"),
                             AccessFailedCount = 0,
                             Address = "çermik",
-                            ConcurrencyStamp = "0a28c051-5518-47be-9544-2913714b794a",
+                            ConcurrencyStamp = "5eb655c3-9198-4a6e-8392-c2e3779f85ab",
                             DateBirth = new DateTime(2000, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@system.com",
                             FirstName = "admin",
@@ -407,8 +416,8 @@ namespace eCommerce.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@SYSTEM.COM",
                             NormalizedUserName = "ADMIN@SYSTEM.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAENbsE1X4QcOYBv9J29H6F3+4y3FBBObJzd46iSL0AmH0QEG9akvC1lesGfKbrpb3+A==",
-                            SecurityStamp = "bc62536a-06b9-46b9-a897-fc4f6b740ab0",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKZQ4k1+VHlq7wWGftPbo5KGpQp5s+EJ1zy9wnWpOd42FQxT2/a5OzQcPmRn78gXyQ==",
+                            SecurityStamp = "7ba3451b-0d95-43fc-addc-cabe0cae9f5d",
                             UserName = "admin@system.com"
                         });
                 });
@@ -499,6 +508,15 @@ namespace eCommerce.Data.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("eCommerce.Entity.Entities.Brand", b =>
+                {
+                    b.HasOne("eCommerce.Entity.Entities.Photo", "Photo")
+                        .WithMany()
+                        .HasForeignKey("ImageId");
+
+                    b.Navigation("Photo");
+                });
+
             modelBuilder.Entity("eCommerce.Entity.Entities.Cart", b =>
                 {
                     b.HasOne("eCommerce.Entity.Entities.Product", "Product")
@@ -522,7 +540,7 @@ namespace eCommerce.Data.Migrations
                 {
                     b.HasOne("eCommerce.Entity.Entities.Category", "ParentCategory")
                         .WithMany()
-                        .HasForeignKey("NewParentCategoryId");
+                        .HasForeignKey("ParentCategoryId");
 
                     b.Navigation("ParentCategory");
                 });
@@ -567,7 +585,7 @@ namespace eCommerce.Data.Migrations
 
             modelBuilder.Entity("eCommerce.Entity.Entities.ProductImage", b =>
                 {
-                    b.HasOne("eCommerce.Entity.Entities.Image", "Image")
+                    b.HasOne("eCommerce.Entity.Entities.Photo", "Photo")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -579,7 +597,7 @@ namespace eCommerce.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Image");
+                    b.Navigation("Photo");
 
                     b.Navigation("Product");
                 });

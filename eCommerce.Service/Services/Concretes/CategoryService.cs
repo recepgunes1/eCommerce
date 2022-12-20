@@ -45,37 +45,31 @@ namespace eCommerce.Service.Services.Concretes
             return mappedCategories;
         }
 
-        public async Task<CategoryViewModel> GetCategoryByGuidAsync(Guid id)
+        public async Task<IEnumerable<CategoryViewModel>> GetAllParentCategoriesNonDeletedAsync()
         {
-            var category = await unitOfWork.GetRepository<Category>().GetByGuidAsync(id);
-            category.ParentCategory = new() { Id = Guid.Empty };
-            if (category.ParentCategoryId != null)
-            {
-                category.ParentCategory = await unitOfWork.GetRepository<Category>().GetByGuidAsync(category.ParentCategoryId.Value);
-            }
-            var mappedCategory = mapper.Map<CategoryViewModel>(category);
-            return mappedCategory;
-        }
-
-        public async Task<IEnumerable<CategoryViewModel>> GetParentCategoriesNonDeletedAsync()
-        {
-            var categories = await unitOfWork.GetRepository<Category>().GetAllAsync(p => !p.IsDeleted && p.ParentCategoryId == null);
+            var categories = await unitOfWork.GetRepository<Category>().GetAllAsync(p => !p.IsDeleted && p.ParentCategory == null);
             var mappedCategories = mapper.Map<IEnumerable<CategoryViewModel>>(categories);
             return mappedCategories;
         }
 
-        public async Task<IEnumerable<CategoryViewModel>> GetParentCategoriesNonDeletedAsync(CategoryViewModel viewModel)
+        public async Task<IEnumerable<CategoryViewModel>> GetAllSubCategoriesNonDeletedAsync()
         {
-            var categories = await unitOfWork.GetRepository<Category>().GetAllAsync(p => !p.IsDeleted && p.ParentCategoryId == null && p.Name != viewModel.Name);
+            var categories = await unitOfWork.GetRepository<Category>().GetAllAsync(p => !p.IsDeleted && p.ParentCategoryId != null);
             var mappedCategories = mapper.Map<IEnumerable<CategoryViewModel>>(categories);
             return mappedCategories;
         }
-
-        public async Task<IEnumerable<CategoryViewModel>> GetSubCategoriesNonDeletedAsync(Guid id)
+        public async Task<IEnumerable<SimpleCategoryViewModel>> GetAllSubCategoriesToParentGuidNonDeletedAsync(Guid id)
         {
             var categories = await unitOfWork.GetRepository<Category>().GetAllAsync(p => !p.IsDeleted && p.ParentCategoryId == id);
-            var mappedCategories = mapper.Map<IEnumerable<CategoryViewModel>>(categories);
+            var mappedCategories = mapper.Map<IEnumerable<SimpleCategoryViewModel>>(categories);
             return mappedCategories;
+        }
+
+        public async Task<CategoryViewModel> GetCategoryByGuidAsync(Guid id)
+        {
+            var category = await unitOfWork.GetRepository<Category>().GetAsync(p => p.Id == id, pc => pc.ParentCategory); ;
+            var mappedCategory = mapper.Map<CategoryViewModel>(category);
+            return mappedCategory;
         }
 
         public async Task RestoreCategoryAsync(Guid id)

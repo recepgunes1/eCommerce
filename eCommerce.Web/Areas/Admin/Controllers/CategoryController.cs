@@ -30,7 +30,7 @@ namespace eCommerce.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             var category = await categoryService.GetCategoryByGuidAsync(id);
-            var products = await productService.GetAllProductsToCategoryNonDeletedAsync(category);
+            var products = await productService.GetAllProductsWithBrandAndCategoryToCategoryNonDeletedAsync(category);
             await categoryService.DeleteCategoryAsync(id);
             foreach (var product in products)
             {
@@ -42,11 +42,11 @@ namespace eCommerce.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Update(Guid id)
         {
             var category = await categoryService.GetCategoryByGuidAsync(id);
-            var parentCategories = await categoryService.GetParentCategoriesNonDeletedAsync(category);
-            var subCategories = await categoryService.GetSubCategoriesNonDeletedAsync(id);
+            var parentCategories = await categoryService.GetAllParentCategoriesNonDeletedAsync();
+            parentCategories = parentCategories.Where(p => p.Id != category.Id);
+            var subCategories = await categoryService.GetAllSubCategoriesToParentGuidNonDeletedAsync(id);
             var mappedCategory = mapper.Map<UpdateCategoryViewModel>(category);
             mappedCategory.Categories = mapper.Map<IEnumerable<SimpleCategoryViewModel>>(parentCategories);
-            mappedCategory.Categories = mappedCategory.Categories.Concat(new[] { new SimpleCategoryViewModel() { Id = Guid.Empty } });
             ViewData["HasSubCategory"] = subCategories.Count() == 0;
             return View(mappedCategory);
         }
@@ -60,8 +60,9 @@ namespace eCommerce.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Add()
         {
-            var parentCategories = await categoryService.GetParentCategoriesNonDeletedAsync();
-            return View();
+            var parentCategories = await categoryService.GetAllParentCategoriesNonDeletedAsync();
+            var viewModel = new AddCategoryViewModel() { ParentCategories = parentCategories };
+            return View(viewModel);
         }
 
         [HttpPost]

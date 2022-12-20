@@ -1,8 +1,6 @@
-﻿using eCommerce.Core.Entities;
-
-namespace eCommerce.Entity.Entities
+﻿namespace eCommerce.Entity.ViewModels.Image
 {
-    public class Image : EntityBase
+    public class UploadImageViewModel
     {
         public string NameWithPath { get; set; }
         public string Extension { get; set; }

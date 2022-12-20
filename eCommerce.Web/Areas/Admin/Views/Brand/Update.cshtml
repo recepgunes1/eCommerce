@@ -3,13 +3,7 @@
     ViewBag.Title = "Update Brand";
 }
 <div class="m-5">
-    @using (Html.BeginForm("Update", "Brand", method: FormMethod.Post, new { Area = "Admin" }))
-    {
-        <div class="row mb-3">
-            <div class="col-6 border-bottom">
-                <h3>Update Brand</h3>
-            </div>
-        </div>
+    <form asp-action="Update" asp-controller="Brand" asp-area="Admin" method="post" enctype="multipart/form-data">
 
         <div class="row mb-3">
             <div class="col-1">
@@ -31,10 +25,29 @@
         </div>
 
         <div class="row mb-3">
+            <div class="col-1">
+                <label>Icon</label>
+            </div>
+            <div class="col-5">
+                <img src="~/images/@Model.Image.NameWithPath" style="height: 6em; width: 6em;" />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-1">
+                @Html.LabelFor(p => p.Photo)
+            </div>
+            <div class="col-5">
+                <input class="form-control" asp-for="Photo" type="file" accept="image/png, image/jpg, image/jpeg" />
+            </div>
+        </div>
+
+
+        <div class="row mb-3">
             <div class="col-6">
                 <input type="submit" value="Update" class="btn btn-primary w-100">
             </div>
         </div>
         @Html.ValidationSummary(null, new {@class = "text-danger"})
-    }
+    </form>
 </div>

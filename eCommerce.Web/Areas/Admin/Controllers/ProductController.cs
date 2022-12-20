@@ -34,7 +34,7 @@ namespace eCommerce.Web.Areas.Admin.Controllers
         public async Task<IActionResult> Add()
         {
             var brands = await brandService.GetAllBrandsNonDeletedAsync();
-            var categories = await categoryService.GetAllCategoriesNonDeletedAsync();
+            var categories = await categoryService.GetAllSubCategoriesNonDeletedAsync();
             var viewModel = new AddProductViewModel();
             viewModel.Brands = mapper.Map<IEnumerable<SimpleBrandViewModel>>(brands);
             viewModel.Categories = mapper.Map<IEnumerable<SimpleCategoryViewModel>>(categories);
@@ -58,7 +58,7 @@ namespace eCommerce.Web.Areas.Admin.Controllers
         {
             var product = await productService.GetProductByGuidAsync(id);
             var brands = await brandService.GetAllBrandsNonDeletedAsync();
-            var categories = await categoryService.GetAllCategoriesNonDeletedAsync();
+            var categories = await categoryService.GetAllSubCategoriesNonDeletedAsync();
             var mappedProduct = mapper.Map<UpdateProductViewModel>(product);
             mappedProduct.Brands = mapper.Map<IEnumerable<SimpleBrandViewModel>>(brands);
             mappedProduct.Categories = mapper.Map<IEnumerable<SimpleCategoryViewModel>>(categories);

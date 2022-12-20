@@ -6,9 +6,9 @@ namespace eCommerce.Service.Services.Abstractions
     {
         Task<IEnumerable<CategoryViewModel>> GetAllCategoriesNonDeletedAsync();
         Task<IEnumerable<CategoryViewModel>> GetAllCategoriesDeletedAsync();
-        Task<IEnumerable<CategoryViewModel>> GetParentCategoriesNonDeletedAsync();
-        Task<IEnumerable<CategoryViewModel>> GetParentCategoriesNonDeletedAsync(CategoryViewModel viewModel);
-        Task<IEnumerable<CategoryViewModel>> GetSubCategoriesNonDeletedAsync(Guid id);
+        Task<IEnumerable<CategoryViewModel>> GetAllSubCategoriesNonDeletedAsync();
+        Task<IEnumerable<CategoryViewModel>> GetAllParentCategoriesNonDeletedAsync();
+        Task<IEnumerable<SimpleCategoryViewModel>> GetAllSubCategoriesToParentGuidNonDeletedAsync(Guid id);
         Task<CategoryViewModel> GetCategoryByGuidAsync(Guid id);
         Task AddCategoryAsync(AddCategoryViewModel viewModel);
         Task DeleteCategoryAsync(Guid id);
