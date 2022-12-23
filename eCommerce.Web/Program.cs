@@ -61,6 +61,11 @@ app.MapAreaControllerRoute(name: "Cart",
     pattern: "Cart/{controller}/{action}"
     );
 
+app.MapAreaControllerRoute(name: "Profile",
+    areaName: "Profile",
+    pattern: "Profile/{controller}/{action}"
+    );
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -1,0 +1,49 @@
+﻿@model UpdateUserViewModel;
+@{
+    ViewBag.Title = "Update User";
+}
+
+@using (Html.BeginForm("Update", "User", method: FormMethod.Post, new { Area = "Admin" }))
+{
+    <div class="row mb-3">
+        <div class="col">
+            <input type="text" class="form-control" asp-for="FirstName" />
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" asp-for="LastName" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <input type="text" class="form-control" asp-for="Email" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <input type="date" class="form-control" asp-for="DateBirth" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <textarea asp-for="Address" class="form-control">@Model.Address</textarea>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <select class="form-select" asp-for="RoleId" asp-items="@(new SelectList(Model.Roles, "Id", "Name"))">
+                <option disabled selected>Select a Role</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <input type="submit" value="Update" class="btn btn-primary w-100">
+        </div>
+    </div>
+    @Html.ValidationSummary(null, new {@class = "text-danger"})
+}

@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using eCommerce.Core.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace eCommerce.Entity.Entities
 {
-    public class User : IdentityUser<Guid>
+    public class User : IdentityUser<Guid>, IEntityBase
     {
         public string FirstName { get; set; }
 

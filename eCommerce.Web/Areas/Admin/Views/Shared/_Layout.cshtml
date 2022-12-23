@@ -7,99 +7,109 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row vh-100">
-            <div class="col-2 bg-light border-end p-3">
-                <div class="text-center mb-5">
+    <header class="bg-light border-bottom">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="navbar-brand text-center ms-5">
                     <p class="h3 border-bottom">eCommerce</p>
                     <p class="h5">Management</p>
                 </div>
-                <ul class="list-group">
-                    <li class="list-group-item list-group-item-action active">
-                        <a class="link-light text-decoration-none" asp-action="Index" asp-controller="Home" asp-area="Admin">
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="list-group-item list-group-item-action">
-                        <a class="text-decoration-none" asp-action="Index" asp-controller="Brand" asp-area="Admin">
-                            Brands
-                        </a>
-                    </li>
-                    <li class="list-group-item list-group-item-action">
-                        <a class="text-decoration-none" asp-action="Index" asp-controller="Category" asp-area="Admin">
-                            Categories
-                        </a>
-                    </li>
-                    <li class="list-group-item list-group-item-action">
-                        <a class="text-decoration-none" asp-action="Index" asp-controller="Comment" asp-area="Admin">
-                            Comments
-                        </a>
-                    </li>
-                    <li class="list-group-item list-group-item-action">
-                        <a class="text-decoration-none" asp-action="Index" asp-controller="Product" asp-area="Admin">
-                            Products
-                        </a>
-                    </li>
-                    <li class="list-group-item list-group-item-action">
-                        <a class="text-decoration-none">
-                            Users
-                        </a>
-                    </li>
-                    <li class="list-group-item list-group-item-action">
-                        <a class="text-decoration-none">
-                            Orders
-                        </a>
-                    </li>
-                    <li class="list-group-item list-group-item-action list-group-item-danger">
-                        <div class="fw-bolder" data-bs-toggle="collapse" data-bs-target="#collapseTrash" aria-expanded="false" aria-controls="collapseTrash">Trash</div>
-                        <div class="collapse mt-3 ms-3" id="collapseTrash">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item list-group-item-action list-group-item-danger">
-                                    <a class="text-decoration-none text-danger fw-bold" class="d-block" asp-action="Brands" asp-controller="Trash" asp-area="Admin">
+
+                <button class="navbar-toggler btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse pe-2 ms-5" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Index" asp-controller="Home" asp-area="Admin">
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Index" asp-controller="Brand" asp-area="Admin">
+                                Brands
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Index" asp-controller="Category" asp-area="Admin">
+                                Categories
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Index" asp-controller="Comment" asp-area="Admin">
+                                Comments
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Index" asp-controller="Product" asp-area="Admin">
+                                Products
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Index" asp-controller="User" asp-area="Admin">
+                                Users
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">
+                                Orders
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <span class="nav-link dropdown-toggle text-danger" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Trash
+                            </span>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item text-danger" class="d-block" asp-action="Brands" asp-controller="Trash" asp-area="Admin">
                                         Brands
                                     </a>
                                 </li>
-                                <li class="list-group-item list-group-item-action list-group-item-danger">
-                                    <a class="text-decoration-none text-danger fw-bold" asp-action="Categories" asp-controller="Trash" asp-area="Admin">
+                                <li>
+                                    <a class="dropdown-item text-danger" asp-action="Categories" asp-controller="Trash" asp-area="Admin">
                                         Categories
                                     </a>
                                 </li>
-                                <li class="list-group-item list-group-item-action list-group-item-danger">
-                                    <a class="text-decoration-none text-danger fw-bold" asp-action="Comments" asp-controller="Trash" asp-area="Admin">
+                                <li>
+                                    <a class="dropdown-item text-danger" asp-action="Comments" asp-controller="Trash" asp-area="Admin">
                                         Comments
                                     </a>
                                 </li>
-                                <li class="list-group-item list-group-item-action list-group-item-danger">
-                                    <a class="text-decoration-none text-danger fw-bold" asp-action="Products" asp-controller="Trash" asp-area="Admin">
+                                <li>
+                                    <a class="dropdown-item text-danger" asp-action="Products" asp-controller="Trash" asp-area="Admin">
                                         Products
                                     </a>
                                 </li>
-                                <li class="list-group-item list-group-item-action list-group-item-danger">
-                                    <a class="text-decoration-none text-danger fw-bold" asp-action="Users" asp-controller="Trash" asp-area="Admin">
+                                <li>
+                                    <a class="dropdown-item text-danger" asp-action="Users" asp-controller="Trash" asp-area="Admin">
                                         Users
                                     </a>
                                 </li>
                             </ul>
-                        </div>
-                    </li>
-                </ul>
-                <div class="mt-5">
-                    <a class="btn btn-primary w-100" asp-action="Index" asp-controller="Home" asp-area=""><< Back to home</a>
+                        </li>
+                    </ul>
+                    <a class="btn btn-primary me-5" asp-action="Index" asp-controller="Home" asp-area="">Back to home</a>
                 </div>
-            </div>
-            <div class="col-9 p-5">
-                <div class="m-5">
-                    <h3 class="ms-2">@ViewBag.Title</h3>
-                    <hr />
-                    @RenderBody()
-                </div>
-            </div>
+            </nav>
         </div>
+    </header>
+
+    <div class="m-5">
+        <h3 class="ms-2">@ViewBag.Title</h3>
+        <hr />
+        @RenderBody()
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(() => {
+            var pathname = window.location.pathname;
+            $('.navbar-nav > li > a[href="' + pathname + '"]').addClass('active');
+        })
+    </script>
 </body>
 </html>

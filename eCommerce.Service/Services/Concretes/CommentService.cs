@@ -50,5 +50,12 @@ namespace eCommerce.Service.Services.Concretes
             comment.IsDeleted = false;
             await unitOfWork.SaveAsync();
         }
+
+        public async Task<IEnumerable<CommentViewModel>> GetAllCommentsToUserIdNonDeletedAsync(Guid id)
+        {
+            var comments = await unitOfWork.GetRepository<Comment>().GetAllAsync(p => !p.IsDeleted && p.User.Id == id, p => p.Product, p => p.User);
+            var mappedComents = mapper.Map<IEnumerable<CommentViewModel>>(comments);
+            return mappedComents;
+        }
     }
 }

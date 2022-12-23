@@ -1,5 +1,5 @@
-﻿using eCommerce.Entity.Entities;
-using eCommerce.Entity.ViewModels.Product;
+﻿using eCommerce.Entity.ViewModels.Product;
+using eCommerce.Entity.ViewModels.User;
 
 namespace eCommerce.Entity.ViewModels.Comment
 {
@@ -9,6 +9,6 @@ namespace eCommerce.Entity.ViewModels.Comment
         public string Content { get; set; }
         public bool IsVisible { get; set; }
         public SimpleProductViewModel Product { get; set; }
-        public User User { get; set; }
+        public SimpleUserViewModel User { get; set; }
     }
 }

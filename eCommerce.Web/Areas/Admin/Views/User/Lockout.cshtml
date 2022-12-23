@@ -1,0 +1,32 @@
+﻿@model LockoutUserViewModel;
+@{
+    ViewBag.Title = "Lockout User";
+}
+
+@using (Html.BeginForm("Lockout", "User", method: FormMethod.Post, new { Area = "Admin" }))
+{
+    <div class="row mb-3">
+        <div class="col-1">
+            <label class="form-label" asp-for="Id">Id</label>
+        </div>
+        <div class="col-4">
+            <input type="text" class="form-control" asp-for="Id" readonly disabled/>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-1">
+            <label class="form-label" asp-for="LockoutEnd">Lockout end Date</label>
+        </div>
+        <div class="col-4">
+            <input type="date" class="form-control" asp-for="LockoutEnd" value="@DateTime.Today.ToString("{0:dd/mm/yyyy}")" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-5">
+            <input type="submit" value="Lockout" class="btn btn-primary w-100">
+        </div>
+    </div>
+    @Html.ValidationSummary(null, new {@class = "text-danger"})
+}

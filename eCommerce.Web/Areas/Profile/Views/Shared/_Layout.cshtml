@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - eCommerce</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body>
+    <header class="bg-light border-bottom">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="navbar-brand text-center ms-5">
+                    <p class="h3 border-bottom">eCommerce</p>
+                    <p class="h5">Profile</p>
+                </div>
+
+                <button class="navbar-toggler btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse pe-2 ms-5" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Profile" asp-controller="Home" asp-area="Profile">
+                                Membership Information
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="ChangePassword" asp-controller="Home" asp-area="Profile">
+                                Change Password
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Orders" asp-controller="Home" asp-area="Profile">
+                                Orders
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Comments" asp-controller="Home" asp-area="Profile">
+                                Comments
+                            </a>
+                        </li>
+                    </ul>
+                    <a class="btn btn-primary me-5" asp-action="Index" asp-controller="Home" asp-area="">Home</a>
+                    <a class="btn btn-danger me-5" asp-action="Logout" asp-controller="Home" asp-area="Auth">Exit</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="m-5">
+        <h3 class="ms-2">@ViewBag.Title</h3>
+        <hr />
+        @RenderBody()
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(() => {
+            var pathname = window.location.pathname;
+            $('.navbar-nav > li > a[href="' + pathname + '"]').addClass('active');
+        })
+    </script>
+</body>
+</html>

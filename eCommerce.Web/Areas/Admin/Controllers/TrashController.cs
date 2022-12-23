@@ -12,13 +12,15 @@ namespace eCommerce.Web.Areas.Admin.Controllers
         private readonly ICategoryService categoryService;
         private readonly ICommentService commentService;
         private readonly IProductService productService;
+        private readonly IUserService userService;
 
-        public TrashController(IBrandService brandService, ICategoryService categoryService, ICommentService commentService, IProductService productService)
+        public TrashController(IBrandService brandService, ICategoryService categoryService, ICommentService commentService, IProductService productService, IUserService userService)
         {
             this.brandService = brandService;
             this.categoryService = categoryService;
             this.commentService = commentService;
             this.productService = productService;
+            this.userService = userService;
         }
 
         public async Task<IActionResult> Brands()
@@ -46,7 +48,8 @@ namespace eCommerce.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Users()
         {
-            return View();
+            var users = await userService.GetAllUsersWithRoleLockedOutAsync();
+            return View(users);
         }
 
         public async Task<IActionResult> RestoreBrand(Guid id)
@@ -75,6 +78,7 @@ namespace eCommerce.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> RestoreUser(Guid id)
         {
+            await userService.RestoreUserAsync(id);
             return RedirectToAction("Users", "Trash", new { Area = "Admin" });
         }
     }

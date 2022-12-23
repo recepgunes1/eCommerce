@@ -1,11 +1,9 @@
-﻿@model SignUpViewModel
-
+﻿@model AddUserViewModel;
 @{
-    ViewBag.Title = "Sign Up";
-    ViewBag.Current = "Register";
+    ViewBag.Title = "Add New User";
 }
 
-@using (Html.BeginForm("Register", "Home", method: FormMethod.Post, new { Area = "Auth" }))
+@using (Html.BeginForm("Add", "User", method: FormMethod.Post, new { Area = "Admin" }))
 {
     <div class="row mb-3">
         <div class="col">
@@ -33,7 +31,7 @@
 
     <div class="row mb-3">
         <div class="col">
-            @Html.TextBoxFor(p => p.DateBirth, new {@class = "form-control", @placeholder = Html.DisplayNameFor(p => p.DateBirth)})
+            <input type="date" asp-for="DateBirth" class="form-control" />
         </div>
     </div>
 
@@ -45,21 +43,15 @@
 
     <div class="row mb-3">
         <div class="col">
-            @Html.CheckBoxFor(p => p.TermsOfService, new {@class = "form-check-input"})
-            @Html.LabelFor(p => p.TermsOfService, new {@class = "form-check-label"})
+            <select class="form-select" asp-for="RoleId" asp-items="@(new SelectList(Model.Roles, "Id", "Name"))">
+                <option disabled selected>Select a Role</option>
+            </select>
         </div>
     </div>
 
     <div class="row mb-3">
         <div class="col">
-            @Html.CheckBoxFor(p => p.ReceiveMessages, new {@class = "form-check-input"})
-            @Html.LabelFor(p => p.ReceiveMessages, new {@class = "form-check-label"})
-        </div>
-    </div>
-
-    <div class="row mb-3">
-        <div class="col">
-            <input type="submit" value="Sign Up" class="btn btn-primary w-100">
+            <input type="submit" value="Add new User" class="btn btn-primary w-100">
         </div>
     </div>
     @Html.ValidationSummary(null, new {@class = "text-danger"})

@@ -1,0 +1,39 @@
+﻿@model UpdateUserViewModel
+@{
+    ViewBag.Title = "Profile";
+}
+<form method="post" asp-action="Profile" asp-controller="Home" asp-area="Profile">
+    <div class="row mb-3">
+        <div class="col">
+            <input type="text" class="form-control" asp-for="FirstName" />
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" asp-for="LastName" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <input type="text" class="form-control" asp-for="Email" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <input type="date" class="form-control" asp-for="DateBirth" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <textarea asp-for="Address" class="form-control">@Model.Address</textarea>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col">
+            <input type="submit" value="Update" class="btn btn-primary w-100">
+        </div>
+    </div>
+    <div class="text-danger" asp-validation-summary="All"></div>
+</form>
