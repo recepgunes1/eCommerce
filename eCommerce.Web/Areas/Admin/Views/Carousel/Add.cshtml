@@ -1,0 +1,42 @@
+﻿@model AddCarouselViewModel
+
+@{
+    ViewBag.Title = "Add a new slide";
+}
+
+
+<form asp-action="Add" asp-controller="Carousel" asp-area="Admin" method="post" enctype="multipart/form-data">
+    <div class="row mb-3">
+        <div class="col-1">
+            @Html.LabelFor(p => p.Header)
+        </div>
+        <div class="col-5">
+            @Html.TextBoxFor(p => p.Header, new {@class = "form-control", @value = Html.DisplayNameFor(p => p.Header)})
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-1">
+            @Html.LabelFor(p => p.Description)
+        </div>
+        <div class="col-5">
+            @Html.TextBoxFor(p => p.Description, new {@class = "form-control", @value = Html.DisplayNameFor(p => p.Description)})
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-1">
+            @Html.LabelFor(p => p.File)
+        </div>
+        <div class="col-5">
+            <input class="form-control" asp-for="File" type="file" accept="image/png, image/jpg, image/jpeg" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-6">
+            <input type="submit" value="Add" class="btn btn-primary w-100">
+        </div>
+    </div>
+    @Html.ValidationSummary(null, new {@class = "text-danger"})
+</form>

@@ -12,7 +12,7 @@ using eCommerce.Data.Context;
 namespace eCommerce.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20221216222732_Initial")]
+    [Migration("20221225190055_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -53,6 +53,36 @@ namespace eCommerce.Data.Migrations
                         .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Brands");
+                });
+
+            modelBuilder.Entity("eCommerce.Entity.Entities.Carousel", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Header")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ImageId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImageId");
+
+                    b.ToTable("Carousels");
                 });
 
             modelBuilder.Entity("eCommerce.Entity.Entities.Cart", b =>
@@ -148,7 +178,7 @@ namespace eCommerce.Data.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("eCommerce.Entity.Entities.Photo", b =>
+            modelBuilder.Entity("eCommerce.Entity.Entities.Image", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -272,14 +302,14 @@ namespace eCommerce.Data.Migrations
                         new
                         {
                             Id = new Guid("ee19984b-50e6-42c6-8b3c-89e578a69625"),
-                            ConcurrencyStamp = "b0fe5b1c-5a60-4807-9123-fab558cca380",
+                            ConcurrencyStamp = "13acb40d-4239-45be-a2b3-4a4fa5a39ddd",
                             Name = "customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
                             Id = new Guid("5d9fb419-99c9-4d2a-9f22-4b95f70a6861"),
-                            ConcurrencyStamp = "4898813f-f014-4240-a6ad-0ebd726db91a",
+                            ConcurrencyStamp = "7396780a-9e96-49ab-9905-6deda1e32d2f",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -408,7 +438,7 @@ namespace eCommerce.Data.Migrations
                             Id = new Guid("71a153a8-6da3-4bec-8538-7ea03e273eae"),
                             AccessFailedCount = 0,
                             Address = "çermik",
-                            ConcurrencyStamp = "5eb655c3-9198-4a6e-8392-c2e3779f85ab",
+                            ConcurrencyStamp = "0a98b9b8-c32f-4820-b83f-a5b46b7e3dc7",
                             DateBirth = new DateTime(2000, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@system.com",
                             FirstName = "admin",
@@ -416,8 +446,8 @@ namespace eCommerce.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@SYSTEM.COM",
                             NormalizedUserName = "ADMIN@SYSTEM.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKZQ4k1+VHlq7wWGftPbo5KGpQp5s+EJ1zy9wnWpOd42FQxT2/a5OzQcPmRn78gXyQ==",
-                            SecurityStamp = "7ba3451b-0d95-43fc-addc-cabe0cae9f5d",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKK+m0MzsNi8BGG2fOwjsFuAkKJGkyDROPKR4oaiNr4DtUR7tmmxHHggN53t+gMK4Q==",
+                            SecurityStamp = "7ee9411a-74f4-4b82-a31c-e4a293b6a533",
                             UserName = "admin@system.com"
                         });
                 });
@@ -510,11 +540,22 @@ namespace eCommerce.Data.Migrations
 
             modelBuilder.Entity("eCommerce.Entity.Entities.Brand", b =>
                 {
-                    b.HasOne("eCommerce.Entity.Entities.Photo", "Photo")
+                    b.HasOne("eCommerce.Entity.Entities.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId");
 
-                    b.Navigation("Photo");
+                    b.Navigation("Image");
+                });
+
+            modelBuilder.Entity("eCommerce.Entity.Entities.Carousel", b =>
+                {
+                    b.HasOne("eCommerce.Entity.Entities.Image", "Image")
+                        .WithMany()
+                        .HasForeignKey("ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("eCommerce.Entity.Entities.Cart", b =>
@@ -585,7 +626,7 @@ namespace eCommerce.Data.Migrations
 
             modelBuilder.Entity("eCommerce.Entity.Entities.ProductImage", b =>
                 {
-                    b.HasOne("eCommerce.Entity.Entities.Photo", "Photo")
+                    b.HasOne("eCommerce.Entity.Entities.Image", "Image")
                         .WithMany()
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -597,7 +638,7 @@ namespace eCommerce.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Photo");
+                    b.Navigation("Image");
 
                     b.Navigation("Product");
                 });

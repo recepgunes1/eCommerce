@@ -2,29 +2,50 @@
 @{
     ViewBag.Title = "Comments";
 }
-<table class="table table-bordered table-striped">
+<table id="comments" class="table table-bordered table-striped">
     <thead>
         <tr class="text-center">
             <th>Content</th>
-            <th>Visibilty</th>
             <th>Product</th>
             <th>User</th>
+            <th>Visibilty</th>
+            <th>Created Date</th>
             <th>Operation</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var comment in Model)
-        {
-            <tr>
-                <td>@comment.Content</td>
-                <td>@comment.IsVisible</td>
-                <td>@comment.Product.Name</td>
-                <td>@comment.User.FirstName @comment.User.LastName</td>
-                <td>
-                    <a class="btn btn-danger" asp-action="Delete" asp-controller="Comment" asp-area="Admin" asp-route-Id="@comment.Id">Delete</a>
-                    <a class="btn btn-warning" asp-action="Block" asp-controller="Comment" asp-area="Admin" asp-route-Id="@comment.Id">Block</a>
-                </td>
-            </tr>
-        }
-    </tbody>
 </table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#comments").DataTable({
+                processing: true,
+                ajax: {
+                    url: '@Url.Action("GetComments", "Comment", new {Area = "Admin"})',
+                    dataSrc: ''
+                },
+                columns: [
+                    { data: "content" },
+                    { data: "product" },
+                    { data: "user" },
+                    { data: "isVisible" },
+                    {
+                        data: "createdDate", render: function (data) {
+                            var date = new Date(data);
+                            return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+                        }
+                    },
+                    {
+                        data: "id", render: function (data) {
+                            var deleteLink = "@Url.Action("Delete", "Comment", new {Area = "Admin", id = "tempData"})";
+                            deleteLink = deleteLink.replace("tempData", data);
+                            var blockLink = "@Url.Action("Block", "Comment", new {Area = "Admin", id = "tempData"})";
+                            blockLink = blockLink.replace("tempData", data);
+                            return `<a class="btn btn-danger" href="${deleteLink}">Delete</a> <a class="btn btn-warning" href="${blockLink}">Block</a>`;
+                        }
+                    },
+                ]
+            });
+        });
+    </script>
+}

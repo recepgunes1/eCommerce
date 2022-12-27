@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title - eCommerce</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <header class="bg-light border-bottom">
@@ -26,7 +27,7 @@
                         </div>
                     </form>
                     <ul class="navbar-nav ms-3 list-group list-group-horizontal">
-                        <li class="nav-item me-5">
+                        <li class="nav-item me-2">
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <a class="nav-link d-flex align-items-center" asp-area="Profile" asp-controller="Home" asp-action="Profile">
@@ -40,9 +41,9 @@
                                 </a>
                             }
                         </li>
-                        @if (User.IsInRole("customer"))
+                        @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item me-5" style="width: 65px;">
+                            <li class="nav-item me-2">
                                 <a class="nav-link d-flex align-items-center" asp-area="Cart" asp-controller="Home" asp-action="Cart">
                                     <img src="~/svg/home/cart.svg" style="height: 32px; width: 32px" />
                                 </a>
@@ -50,7 +51,7 @@
                         }
                         @if (User.IsInRole("admin"))
                         {
-                            <li class="nav-item" style="width: 65px;">
+                            <li class="nav-item">
                                 <a class="nav-link d-flex align-items-center" asp-area="Admin" asp-controller="Home" asp-action="Index">
                                     <img src="~/svg/home/tools.svg" style="height: 32px; width: 32px" />
                                 </a>
@@ -73,6 +74,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js"></script>
-    @await RenderSectionAsync("Scripts", required: true)
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

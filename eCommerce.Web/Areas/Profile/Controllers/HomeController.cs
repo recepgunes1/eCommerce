@@ -1,4 +1,5 @@
 ﻿using eCommerce.Entity.ViewModels.User;
+using eCommerce.Service.Extensions;
 using eCommerce.Service.Services.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,16 @@ namespace eCommerce.Web.Areas.Profile.Controllers
             return View(user);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Profile(UpdateUserViewModel viewModel)
+        {
+            var authUser = await userService.GetAuthenticatedUserAsync<UpdateUserViewModel>();
+            viewModel.Id = authUser.Id;
+            var result = await userService.UpdateUserAsync(viewModel);
+            result.AddToIdentityModelState(ModelState);
+            return View(viewModel);
+        }
+
         public IActionResult ChangePassword()
         {
             return View();
@@ -38,6 +49,10 @@ namespace eCommerce.Web.Areas.Profile.Controllers
                 if (result.Succeeded)
                 {
                     return View();
+                }
+                else
+                {
+                    result.AddToIdentityModelState(ModelState);
                 }
             }
             return View();

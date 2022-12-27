@@ -1,13 +1,29 @@
-﻿@using eCommerce.Entity.ViewModels.Product;
-@model IEnumerable<ProductViewModel>
-
-@foreach (var product in Model)
-{
-    <hr />
-    @product.Name
-    <hr />
-    @product.Brand.Name
-    <hr />
-    @product.Category.Name
-    <hr />
+﻿@model IEnumerable<ProductViewModel>
+@{
+    ViewBag.Title = "Products";
 }
+
+
+<div class="container pt-2 pb-2">
+    <!-- https://stackoverflow.com/a/48486050/13955032 -->
+    <div class="product-row">
+        @for (int i = 0; i < 20; i++)
+        {
+            <div class="product border rounded bg-light m-1 p-2 text-center">
+                <a class="btn" asp-action="Product" asp-controller="Home" asp-route-id="@Model.FirstOrDefault()?.Id">
+                    <img class="rounded border" src="~/images/@Model.FirstOrDefault()?.Images.FirstOrDefault()?.NameWithPath" style="height: 10em; width: 10em;" />
+                    <div>
+                        <div class="mb-2">
+                            <span class="fw-bolder">@Model.FirstOrDefault()?.Brand.Name</span>
+                            <span>@Model.FirstOrDefault()?.Name</span>
+                        </div>
+                        <div>
+                            <span>@Model.FirstOrDefault()?.Price.ToString("N")</span>
+                            <span>TL</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</div>

@@ -15,10 +15,15 @@ namespace eCommerce.Web.Areas.Admin.Controllers
             this.commentService = commentService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> GetComments()
         {
             var comments = await commentService.GetAllCommentsNonDeletedAsync();
-            return View(comments);
+            return Json(comments.Select(p => new { p.Id, p.Content, product = p.Product.Name, user = $"{p.User.FirstName} {p.User.LastName}", p.IsVisible, p.CreatedDate }));
         }
 
         public async Task<IActionResult> Delete(Guid id)

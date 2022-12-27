@@ -8,6 +8,7 @@ namespace eCommerce.Entity.ViewModels.Comment
         public Guid Id { get; set; }
         public string Content { get; set; }
         public bool IsVisible { get; set; }
+        public DateTime CreatedDate { get; set; }
         public SimpleProductViewModel Product { get; set; }
         public SimpleUserViewModel User { get; set; }
     }

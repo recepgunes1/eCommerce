@@ -12,6 +12,7 @@ namespace eCommerce.Service.Extensions
         {
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICarouselService, CarouselService>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IProductService, ProductService>();

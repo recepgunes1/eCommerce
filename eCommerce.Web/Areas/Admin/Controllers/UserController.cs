@@ -21,8 +21,13 @@ namespace eCommerce.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            return View();
+        }
+
+        public async Task<IActionResult> GetUsers()
+        {
             var users = await userService.GetAllUsersWithRoleNonLockedOutAsync();
-            return View(users);
+            return Json(users.Select(p => new { p.Id, p.FirstName, p.LastName, p.Email, role=p.Role.ToString() }));
         }
 
         public async Task<IActionResult> Add()

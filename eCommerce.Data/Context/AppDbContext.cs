@@ -9,6 +9,7 @@ namespace eCommerce.Data.Context
     {
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Cart> Carts { get; set; }
+        public DbSet<Carousel> Carousels { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Image> Images { get; set; }

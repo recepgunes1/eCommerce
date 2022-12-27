@@ -1,25 +1,48 @@
-﻿@model IEnumerable<BrandViewModel>
-@{
+﻿@{
     ViewBag.Title = "Brand Trashbox";
 }
-<table class="table table-bordered table-striped">
+<table id="brands" class="table table-bordered table-striped">
     <thead>
         <tr>
+            <th>Image</th>
             <th>Name</th>
             <th>Created Date</th>
             <th>Operations</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var brand in Model)
-        {
-            <tr>
-                <td>@brand.Name</td>
-                <td>@brand.CreatedDate</td>
-                <td>
-                    <a class="btn btn-warning" asp-action="RestoreBrand" asp-controller="Trash" asp-area="Admin" asp-route-Id="@brand.Id">Restore</a>
-                </td>
-            </tr>
-        }
-    </tbody>
 </table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#brands").DataTable({
+                processing: true,
+                ajax: {
+                    url: '@Url.Action("GetBrands", "Trash", new {Area = "Admin"})',
+                    dataSrc: ''
+                },
+                columns: [
+                    {
+                        data: "image", render: function (data) {
+                            return `<img class="mx-auto d-block img-thumbnail" style="height: 6em; width: 6em;" src="/images/${data}"/>`
+                        }
+                    },
+                    { data: "name" },
+                    {
+                        data: "createdDate", render: function (data) {
+                            var date = new Date(data);
+                            return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+                        }
+                    },
+                    {
+                        data: "id", render: function (data) {
+                            var restoreLink = "@Url.Action("RestoreBrand", "Trash", new {Area = "Admin", id = "tempData"})";
+                            restoreLink = restoreLink.replace("tempData", data);
+                            return `<a class="btn btn-warning" href="${restoreLink}">Restore</a>`;
+                        }
+                    },
+                ]
+            });
+        });
+    </script>
+}

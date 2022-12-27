@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Users";
 }
-<table class="table table-bordered table-striped">
+<table id="users" class="table table-bordered table-striped">
     <thead>
         <tr class="text-center">
             <th>First Name</th>
@@ -12,26 +12,40 @@
             <th>Operations</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-            <tr>
-                <td>@user.FirstName</td>
-                <td>@user.LastName</td>
-                <td>@user.Email</td>
-                <td>@user.Role</td>
-                <td>
-                    <a class="btn btn-warning" asp-action="Lockout" asp-controller="User" asp-area="Admin" asp-route-Id="@user.Id">Lockout</a>
-                    <a class="btn btn-success" asp-action="Update" asp-controller="User" asp-area="Admin" asp-route-Id="@user.Id">Update</a>
-                </td>
-            </tr>
-        }
-    </tbody>
     <tfoot>
         <tr>
-            <td colspan="6">
+            <td colspan="5">
                 <a class="btn btn-primary w-25" asp-action="Add" asp-controller="User" asp-area="Admin">Add a new user</a>
             </td>
         </tr>
     </tfoot>
 </table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#users").DataTable({
+                processing: true,
+                ajax: {
+                    url: '@Url.Action("GetUsers", "User", new {Area = "Admin"})',
+                    dataSrc: ''
+                },
+                columns: [
+                    { data: "firstName" },
+                    { data: "lastName" },
+                    { data: "email" },
+                    { data: "role" },
+                    {
+                        data: "id", render: function (data) {
+                            var updateLink = "@Url.Action("Update", "User", new {Area = "Admin", id = "tempData"})";
+                            updateLink = updateLink.replace("tempData", data);
+                            var lockoutLink = "@Url.Action("Lockout", "User", new {Area = "Admin", id = "tempData"})";
+                            lockoutLink = lockoutLink.replace("tempData", data);
+                            return `<a class="btn btn-success" href="${updateLink}">Update</a> <a class="btn btn-warning" href="${lockoutLink}">Lockout</a>`;
+                        }
+                    },
+                ]
+            });
+        });
+    </script>
+}

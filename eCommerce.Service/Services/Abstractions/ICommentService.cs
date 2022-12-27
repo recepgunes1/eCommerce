@@ -7,6 +7,7 @@ namespace eCommerce.Service.Services.Abstractions
         Task<IEnumerable<CommentViewModel>> GetAllCommentsNonDeletedAsync();
         Task<IEnumerable<CommentViewModel>> GetAllCommentsDeletedAsync();
         Task<IEnumerable<CommentViewModel>> GetAllCommentsToUserIdNonDeletedAsync(Guid id);
+        Task AddCommentAsync(AddCommentViewModel viewModel);
         Task DeleteCommentAsync(Guid id);
         Task BlockCommentAsync(Guid id);
         Task RestoreCommentAsync(Guid id);

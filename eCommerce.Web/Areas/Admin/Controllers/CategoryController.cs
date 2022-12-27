@@ -23,8 +23,14 @@ namespace eCommerce.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
+            return View();
+        }
+
+        public async Task<IActionResult> GetCategories()
+        {
             var categories = await categoryService.GetAllCategoriesNonDeletedAsync();
-            return View(categories);
+            return Json(categories.Select(p => new { p.Id, p.Name, ParentName = p.ParentCategory?.Name, p.CreatedDate }));
+
         }
 
         public async Task<IActionResult> Delete(Guid id)

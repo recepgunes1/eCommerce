@@ -9,6 +9,7 @@ namespace eCommerce.Service.AutoMapper.Comments
         public CommentProfile()
         {
             CreateMap<Comment, CommentViewModel>().ReverseMap();
+            CreateMap<Comment, AddCommentViewModel>().ReverseMap();
         }
     }
 }

@@ -22,6 +22,10 @@ namespace eCommerce.Service.Services.Concretes
 
         public async Task AddBrandAsync(AddBrandViewModel viewModel)
         {
+            if (await unitOfWork.GetRepository<Brand>().AnyAsync(p => p.Name == viewModel.Name))
+            {
+                return;
+            }
             var image = await imageHelper.UploadAsync(viewModel.Photo, "brands");
             var mappedImage = mapper.Map<Image>(image);
             await unitOfWork.GetRepository<Image>().AddAsync(mappedImage);
@@ -55,7 +59,7 @@ namespace eCommerce.Service.Services.Concretes
 
         public async Task<IEnumerable<BrandViewModel>> GetAllBrandsDeletedAsync()
         {
-            var brands = await unitOfWork.GetRepository<Brand>().GetAllAsync(p => p.IsDeleted);
+            var brands = await unitOfWork.GetRepository<Brand>().GetAllAsync(p => p.IsDeleted, i => i.Image);
             var mappedBrands = mapper.Map<IEnumerable<BrandViewModel>>(brands);
             return mappedBrands;
         }
@@ -72,6 +76,14 @@ namespace eCommerce.Service.Services.Concretes
             var brand = await unitOfWork.GetRepository<Brand>().GetAsync(p => p.Id == id, i => i.Image);
             var mappedBrand = mapper.Map<BrandViewModel>(brand);
             return mappedBrand;
+        }
+
+        public async Task<IEnumerable<BrandViewModel>> GetSuggestedBrandsAsync()
+        {
+            var brands = await unitOfWork.GetRepository<Brand>().GetAllAsync(p => !p.IsDeleted, i => i.Image);
+            brands = OrderRandomly(brands, 5).ToList();
+            var mappedBrands = mapper.Map<IEnumerable<BrandViewModel>>(brands);
+            return mappedBrands;
         }
 
         public async Task RestoreBrandAsync(Guid id)
@@ -97,6 +109,10 @@ namespace eCommerce.Service.Services.Concretes
         public async Task UpdateBrandAsync(UpdateBrandViewModel viewModel)
         {
             var brand = await unitOfWork.GetRepository<Brand>().GetAsync(p => p.Id == viewModel.Id, i => i.Image);
+            if (await unitOfWork.GetRepository<Brand>().AnyAsync(p => p.Name == viewModel.Name && p.Id != brand.Id))
+            {
+                return;
+            }
             if (viewModel.Photo != null)
             {
                 var oldImage = await unitOfWork.GetRepository<Image>().GetByGuidAsync(brand.ImageId.GetValueOrDefault());
@@ -108,6 +124,15 @@ namespace eCommerce.Service.Services.Concretes
             }
             brand.Name = viewModel.Name;
             await unitOfWork.SaveAsync();
+        }
+
+        private IEnumerable<Brand> OrderRandomly(IEnumerable<Brand> input, int irTake)
+        {
+            var indexes = Enumerable.Range(0, input.Count()).OrderBy(g => Guid.NewGuid()).Take(irTake).ToArray();
+            foreach (var index in indexes)
+            {
+                yield return input.ElementAt(index);
+            }
         }
     }
 }

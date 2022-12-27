@@ -24,11 +24,17 @@ namespace eCommerce.Web.Areas.Admin.Controllers
             this.mapper = mapper;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> GetBrands()
         {
             var brands = await brandService.GetAllBrandsNonDeletedAsync();
-            return View(brands);
+            return Json(brands.Select(p => new { p.Id, p.Name, p.CreatedDate, p.Image.NameWithPath }));
         }
+
 
         public IActionResult Add()
         {

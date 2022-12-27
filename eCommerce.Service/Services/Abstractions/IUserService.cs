@@ -1,4 +1,5 @@
 ﻿using eCommerce.Entity.Entities;
+using eCommerce.Entity.ViewModels.Auth;
 using eCommerce.Entity.ViewModels.User;
 using Microsoft.AspNetCore.Identity;
 
@@ -17,5 +18,6 @@ namespace eCommerce.Service.Services.Abstractions
         Task<(IdentityResult locukoutEnabled, IdentityResult lockoutEnd)> RestoreUserAsync(Guid id);
         Task<T> GetAuthenticatedUserAsync<T>();
         Task<IdentityResult> UpdatePasswordAsync(ChangeUserPasswordViewModel viewModel);
+        Task<IdentityResult> SignUpAsCustomerAsync(SignUpViewModel viewModel);
     }
 }

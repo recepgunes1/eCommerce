@@ -2,34 +2,58 @@
 @{
     ViewBag.Title = "Brands";
 }
-<table class="table table-bordered table-striped">
+<table id="brands" class="table table-bordered table-striped">
     <thead>
         <tr class="text-center">
-            <th>Icon</th>
+            <th>Image</th>
             <th>Name</th>
             <th>Created Date</th>
-            <th>Operations</th>
+            <th>Operation</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var brand in Model)
-        {
-            <tr>
-                <td><img class="mx-auto d-block img-thumbnail" src="~/images/@brand.Image.NameWithPath" style="height: 6em; width: 6em;" /> </td>
-                <td>@brand.Name</td>
-                <td>@brand.CreatedDate</td>
-                <td>
-                    <a class="btn btn-danger" asp-action="Delete" asp-controller="Brand" asp-area="Admin" asp-route-Id="@brand.Id">Delete</a>
-                    <a class="btn btn-success" asp-action="Update" asp-controller="Brand" asp-area="Admin" asp-route-Id="@brand.Id">Update</a>
-                </td>
-            </tr>
-        }
-    </tbody>
     <tfoot>
         <tr>
             <td colspan="4">
-                <a class="btn btn-primary w-50" asp-action="Add" asp-controller="Brand" asp-area="Admin">Add</a>
+                <a class="btn btn-primary w-25" asp-action="Add" asp-controller="Brand" asp-area="Admin">Add</a>
             </td>
         </tr>
     </tfoot>
 </table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#brands").DataTable({
+                responsive: true,
+                processing: true,
+                ajax: {
+                    url: '@Url.Action("GetBrands", "Brand", new {Area = "Admin"})',
+                    dataSrc: ''
+                },
+                columns: [
+                    {
+                        data: "nameWithPath", render: function (data) {
+                            return '<img class="mx-auto d-block img-thumbnail" style="height: 6em; width: 6em;" src="/images/' + data + '"/>'
+                        }
+                    },
+                    { data: "name" },
+                    {
+                        data: "createdDate", render: function (data) {
+                            var date = new Date(data);
+                            return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+                        }
+                    },
+                    {
+                        data: "id", render: function (data) {
+                            var deleteLink = "@Url.Action("Delete", "Brand", new {Area = "Admin", id = "tempData"})";
+                            deleteLink = deleteLink.replace("tempData", data);
+                            var updateLink = "@Url.Action("Update", "Brand", new {Area = "Admin", id = "tempData"})";
+                            updateLink = updateLink.replace("tempData", data);
+                            return `<a class="btn btn-danger" href="${deleteLink}">Delete</a> <a class="btn btn-success" href="${updateLink}">Update</a>`;
+                        }
+                    },
+                ]
+            });
+        });
+    </script>
+}

@@ -1,31 +1,55 @@
-﻿@model IEnumerable<ProductViewModel>
-@{
+﻿@{
     ViewBag.Title = "Product Trash";
 }
-<table class="table table-bordered table-striped">
+<table id="products" class="table table-bordered table-striped">
     <thead>
         <tr>
+            <th>Image</th>
             <th>Name</th>
             <th>Price</th>
             <th>Quantity</th>
             <th>Brand</th>
             <th>Category</th>
+            <th>Created Date</th>
             <th>Operations</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var product in Model)
-        {
-            <tr>
-                <td>@product.Name</td>
-                <td>@product.Price</td>
-                <td>@product.Quantity</td>
-                <td>@product.Brand.Name</td>
-                <td>@product.Category.Name</td>
-                <td>
-                    <a class="btn btn-warning" asp-action="RestoreProduct" asp-controller="Trash" asp-area="Admin" asp-route-Id="@product.Id">Restore</a>
-                </td>
-            </tr>
-        }
-    </tbody>
 </table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#products").DataTable({
+                processing: true,
+                ajax: {
+                    url: '@Url.Action("GetProducts", "Trash", new {Area = "Admin"})',
+                    dataSrc: ''
+                },
+                columns: [
+                    {
+                        data: "image", render: function (data) {
+                            return `<img class="mx-auto d-block img-thumbnail" style="height: 6em; width: 6em;" src="/images/${data}"/>`
+                        }
+                    },
+                    { data: "name" },
+                    { data: "price" },
+                    { data: "quantity" },
+                    { data: "brand" },
+                    { data: "category" },
+                    {
+                        data: "createdDate", render: function (data) {
+                            var date = new Date(data);
+                            return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+                        }
+                    },
+                    {
+                        data: "id", render: function (data) {
+                            var restoreLink = "@Url.Action("RestoreProduct", "Trash", new {Area = "Admin", id = "tempData"})";
+                            restoreLink = restoreLink.replace("tempData", data);
+                            return `<a class="btn btn-warning" href="${restoreLink}">Restore</a>`;
+                        }
+                    },
+                ]
+            });
+        });
+    </script>
+}

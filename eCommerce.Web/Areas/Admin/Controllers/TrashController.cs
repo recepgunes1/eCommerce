@@ -23,33 +23,44 @@ namespace eCommerce.Web.Areas.Admin.Controllers
             this.userService = userService;
         }
 
-        public async Task<IActionResult> Brands()
+        public IActionResult Brands() => View();
+
+        public async Task<IActionResult> GetBrands()
         {
             var brands = await brandService.GetAllBrandsDeletedAsync();
-            return View(brands);
+            return Json(brands.Select(p => new { p.Id, p.Name, p.CreatedDate, image = p.Image.NameWithPath }));
         }
-        public async Task<IActionResult> Categories()
+
+        public IActionResult Categories() => View();
+
+        public async Task<IActionResult> GetCategories()
         {
             var categories = await categoryService.GetAllCategoriesDeletedAsync();
-            return View(categories);
+            return Json(categories.Select(p => new { p.Id, p.Name, parentName = p.ParentCategory?.Name, p.CreatedDate }));
         }
 
-        public async Task<IActionResult> Comments()
+        public IActionResult Comments() => View();
+
+        public async Task<IActionResult> GetComments()
         {
             var comments = await commentService.GetAllCommentsDeletedAsync();
-            return View(comments);
+            return Json(comments.Select(p => new { p.Id, p.Content, p.CreatedDate, user = $"{p.User.FirstName} {p.User.LastName}", product = p.Product.Name, p.IsVisible }));
         }
 
-        public async Task<IActionResult> Products()
+        public IActionResult Products() => View();
+
+        public async Task<IActionResult> GetProducts()
         {
             var products = await productService.GetAllProductsWithBrandAndCategoryDeletedAsync();
-            return View(products);
+            return Json(products.Select(p => new { p.Id, p.Name, p.Price, p.Quantity, brand = p.Brand.Name, category = p.Category.Name, p.CreatedDate, image = p.Images.FirstOrDefault()?.NameWithPath })); ;
         }
 
-        public async Task<IActionResult> Users()
+        public IActionResult Users() => View();
+
+        public async Task<IActionResult> GetUsers()
         {
             var users = await userService.GetAllUsersWithRoleLockedOutAsync();
-            return View(users);
+            return Json(users);
         }
 
         public async Task<IActionResult> RestoreBrand(Guid id)

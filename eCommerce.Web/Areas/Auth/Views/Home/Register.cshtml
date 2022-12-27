@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "Sign Up";
-    ViewBag.Current = "Register";
 }
 
 @using (Html.BeginForm("Register", "Home", method: FormMethod.Post, new { Area = "Auth" }))
@@ -33,7 +32,7 @@
 
     <div class="row mb-3">
         <div class="col">
-            @Html.TextBoxFor(p => p.DateBirth, new {@class = "form-control", @placeholder = Html.DisplayNameFor(p => p.DateBirth)})
+            <input type="date" asp-for="DateBirth" class="form-control" placeholder="@Html.DisplayNameFor(p => p.DateBirth)" />
         </div>
     </div>
 

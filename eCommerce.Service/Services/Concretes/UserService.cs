@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eCommerce.Entity.Entities;
+using eCommerce.Entity.ViewModels.Auth;
 using eCommerce.Entity.ViewModels.User;
 using eCommerce.Service.Extensions;
 using eCommerce.Service.Services.Abstractions;
@@ -16,14 +17,16 @@ namespace eCommerce.Service.Services.Concretes
         private readonly IMapper mapper;
         private readonly UserManager<User> userManager;
         private readonly RoleManager<Role> roleManager;
+        private readonly SignInManager<User> signInManager;
         private readonly ClaimsPrincipal _user;
 
-        public UserService(IHttpContextAccessor httpContextAccessor, IMapper mapper, UserManager<User> userManager, RoleManager<Role> roleManager)
+        public UserService(IHttpContextAccessor httpContextAccessor, IMapper mapper, UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager)
         {
             this.httpContextAccessor = httpContextAccessor;
             this.mapper = mapper;
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.signInManager = signInManager;
             this._user = this.httpContextAccessor.HttpContext.User;
         }
 
@@ -58,20 +61,12 @@ namespace eCommerce.Service.Services.Concretes
             }
             return mappedUsers;
         }
+
         public async Task<T> GetAuthenticatedUserAsync<T>()
         {
             Guid userId = _user.GetLoggedInUserId();
             var user = await userManager.FindByIdAsync(userId.ToString());
             var mappedUser = mapper.Map<T>(user);
-            return mappedUser;
-        }
-        public async Task<UserViewModel> GetUserByGuid(Guid id)
-        {
-            var user = await userManager.FindByIdAsync(id.ToString());
-            var roleNames = await userManager.GetRolesAsync(user);
-            var role = await roleManager.FindByNameAsync(roleNames.First());
-            var mappedUser = mapper.Map<UserViewModel>(user);
-            mappedUser.RoleId = role.Id;
             return mappedUser;
         }
 
@@ -90,6 +85,12 @@ namespace eCommerce.Service.Services.Concretes
         {
             var user = await GetUserByGuidAsync(viewModel.Id);
             var userRole = await GetUserRoleAsync(user);
+            mapper.Map(viewModel, user);
+            user.UserName = user.Email;
+            if (viewModel.RoleId == Guid.Empty)
+            {
+                viewModel.RoleId = await roleManager.Roles.Where(p => p.Name == userRole).Select(p => p.Id).FirstAsync();
+            }
             var result = await userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
@@ -132,9 +133,28 @@ namespace eCommerce.Service.Services.Concretes
         public async Task<IdentityResult> UpdatePasswordAsync(ChangeUserPasswordViewModel viewModel)
         {
             var user = await GetAuthenticatedUserAsync<User>();
-            user.SecurityStamp = Guid.NewGuid().ToString();
-            var token = await userManager.GeneratePasswordResetTokenAsync(user);
-            var result = await userManager.ResetPasswordAsync(user, token, viewModel.Password);
+            var check = await signInManager.CheckPasswordSignInAsync(user, viewModel.CurrentPassowrd, false);
+            if (check.Succeeded)
+            {
+                user.SecurityStamp = Guid.NewGuid().ToString();
+                var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await userManager.ResetPasswordAsync(user, token, viewModel.Password);
+                return result;
+            }
+            return IdentityResult.Failed(new IdentityError() { Description = "Current password is wrong." });
+        }
+
+        public async Task<IdentityResult> SignUpAsCustomerAsync(SignUpViewModel viewModel)
+        {
+            var mappedUser = mapper.Map<User>(viewModel);
+            mappedUser.UserName = mappedUser.Email;
+            mappedUser.LockoutEnabled = false;
+            var result = await userManager.CreateAsync(mappedUser, viewModel.Password);
+            if (result.Succeeded)
+            {
+                var role = await roleManager.FindByNameAsync("customer");
+                await userManager.AddToRoleAsync(mappedUser, role.Name);
+            }
             return result;
         }
     }

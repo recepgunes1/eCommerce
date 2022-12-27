@@ -12,6 +12,9 @@ namespace eCommerce.Service.AutoMapper.Products
             CreateMap<Product, ProductViewModel>()
                 .ForMember(p => p.Images, o => o.MapFrom(p => p.ProductImages.Select(s => s.Image)))
                 .ReverseMap();
+            CreateMap<Product, ProductWithCommentsViewModel>()
+                .ForMember(p => p.Images, o => o.MapFrom(p => p.ProductImages.Select(s => s.Image)))
+                .ReverseMap();
             CreateMap<Product, SimpleProductViewModel>().ReverseMap();
             CreateMap<ProductViewModel, UpdateProductViewModel>().ReverseMap();
         }

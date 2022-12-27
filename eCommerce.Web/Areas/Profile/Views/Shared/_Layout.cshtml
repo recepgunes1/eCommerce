@@ -42,8 +42,12 @@
                             </a>
                         </li>
                     </ul>
-                    <a class="btn btn-primary me-5" asp-action="Index" asp-controller="Home" asp-area="">Home</a>
-                    <a class="btn btn-danger me-5" asp-action="Logout" asp-controller="Home" asp-area="Auth">Exit</a>
+                    <a class="me-4" asp-action="Index" asp-controller="Home" asp-area="">
+                        <img src="~/svg/profile/house.svg" style="height: 32px; width: 32px" />
+                    </a>
+                    <a class="me-2" asp-action="Logout" asp-controller="Home" asp-area="Auth">
+                        <img src="~/svg/profile/escape.svg" style="height: 32px; width: 32px" />
+                    </a>
                 </div>
             </nav>
         </div>

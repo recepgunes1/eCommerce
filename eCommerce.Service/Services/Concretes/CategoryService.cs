@@ -19,6 +19,10 @@ namespace eCommerce.Service.Services.Concretes
 
         public async Task AddCategoryAsync(AddCategoryViewModel viewModel)
         {
+            if (await unitOfWork.GetRepository<Category>().AnyAsync(p => p.Name == viewModel.Name))
+            {
+                return;
+            }
             var mappedCategory = mapper.Map<Category>(viewModel);
             await unitOfWork.GetRepository<Category>().AddAsync(mappedCategory);
             await unitOfWork.SaveAsync();
@@ -81,6 +85,10 @@ namespace eCommerce.Service.Services.Concretes
 
         public async Task UpdateCategoryAsync(UpdateCategoryViewModel viewModel)
         {
+            if (await unitOfWork.GetRepository<Category>().AnyAsync(p => p.Name == viewModel.Name))
+            {
+                return;
+            }
             var category = await unitOfWork.GetRepository<Category>().GetByGuidAsync(viewModel.Id);
             category.Name = viewModel.Name;
             category.ParentCategoryId = viewModel.NewParentCategoryId == Guid.Empty ? null : viewModel.NewParentCategoryId;

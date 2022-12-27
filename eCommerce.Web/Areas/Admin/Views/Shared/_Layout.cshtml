@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title - eCommerce</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/jquery-DataTables/DataTables-1.13.1/css/dataTables.bootstrap5.css" />
+
 </head>
 <body>
     <header class="bg-light border-bottom">
@@ -56,6 +58,11 @@
                                 Orders
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Add" asp-controller="Carousel" asp-area="Admin">
+                                Carousel
+                            </a>
+                        </li>
                         <li class="nav-item dropdown">
                             <span class="nav-link dropdown-toggle text-danger" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Trash
@@ -89,7 +96,9 @@
                             </ul>
                         </li>
                     </ul>
-                    <a class="btn btn-primary me-5" asp-action="Index" asp-controller="Home" asp-area="">Back to home</a>
+                    <a class="me-5" asp-action="Index" asp-controller="Home" asp-area="">
+                        <img src="~/svg/profile/house.svg" style="height: 32px; width: 32px" />
+                    </a>
                 </div>
             </nav>
         </div>
@@ -100,16 +109,17 @@
         <hr />
         @RenderBody()
     </div>
-
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-DataTables/DataTables-1.13.1/js/jquery.dataTables.js"></script>
+    <script src="~/lib/jquery-DataTables/DataTables-1.13.1/js/dataTables.bootstrap5.min.js"></script>
     <script>
         $(() => {
-            var pathname = window.location.pathname;
-            $('.navbar-nav > li > a[href="' + pathname + '"]').addClass('active');
+            $(`.navbar-nav > li > a[href="${window.location.pathname}"]`).addClass('active');
         })
     </script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

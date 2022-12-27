@@ -107,6 +107,28 @@ namespace eCommerce.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Carousels",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Header = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Carousels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Carousels_Images_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "Images",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "RoleClaims",
                 columns: table => new
                 {
@@ -353,14 +375,14 @@ namespace eCommerce.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("5d9fb419-99c9-4d2a-9f22-4b95f70a6861"), "4898813f-f014-4240-a6ad-0ebd726db91a", "admin", "ADMIN" },
-                    { new Guid("ee19984b-50e6-42c6-8b3c-89e578a69625"), "b0fe5b1c-5a60-4807-9123-fab558cca380", "customer", "CUSTOMER" }
+                    { new Guid("5d9fb419-99c9-4d2a-9f22-4b95f70a6861"), "7396780a-9e96-49ab-9905-6deda1e32d2f", "admin", "ADMIN" },
+                    { new Guid("ee19984b-50e6-42c6-8b3c-89e578a69625"), "13acb40d-4239-45be-a2b3-4a4fa5a39ddd", "customer", "CUSTOMER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "AccessFailedCount", "Address", "ConcurrencyStamp", "DateBirth", "Email", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "SecurityStamp", "UserName" },
-                values: new object[] { new Guid("71a153a8-6da3-4bec-8538-7ea03e273eae"), 0, "çermik", "5eb655c3-9198-4a6e-8392-c2e3779f85ab", new DateTime(2000, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@system.com", "admin", "admin", false, null, "ADMIN@SYSTEM.COM", "ADMIN@SYSTEM.COM", "AQAAAAIAAYagAAAAEKZQ4k1+VHlq7wWGftPbo5KGpQp5s+EJ1zy9wnWpOd42FQxT2/a5OzQcPmRn78gXyQ==", "7ba3451b-0d95-43fc-addc-cabe0cae9f5d", "admin@system.com" });
+                values: new object[] { new Guid("71a153a8-6da3-4bec-8538-7ea03e273eae"), 0, "çermik", "0a98b9b8-c32f-4820-b83f-a5b46b7e3dc7", new DateTime(2000, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@system.com", "admin", "admin", false, null, "ADMIN@SYSTEM.COM", "ADMIN@SYSTEM.COM", "AQAAAAIAAYagAAAAEKK+m0MzsNi8BGG2fOwjsFuAkKJGkyDROPKR4oaiNr4DtUR7tmmxHHggN53t+gMK4Q==", "7ee9411a-74f4-4b82-a31c-e4a293b6a533", "admin@system.com" });
 
             migrationBuilder.InsertData(
                 table: "UserRoles",
@@ -378,6 +400,11 @@ namespace eCommerce.Data.Migrations
                 column: "Name",
                 unique: true,
                 filter: "[Name] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Carousels_ImageId",
+                table: "Carousels",
+                column: "ImageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Carts_ProductId",
@@ -479,6 +506,9 @@ namespace eCommerce.Data.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Carousels");
+
             migrationBuilder.DropTable(
                 name: "Carts");
 

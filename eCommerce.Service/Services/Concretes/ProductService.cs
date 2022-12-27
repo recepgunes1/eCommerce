@@ -42,28 +42,44 @@ namespace eCommerce.Service.Services.Concretes
 
         public async Task<IEnumerable<ProductViewModel>> GetAllProductsWithBrandAndCategoryToBrandNonDeletedAsync(BrandViewModel viewModel)
         {
-            var products = await unitOfWork.GetRepository<Product>().GetAllAsync(p => !p.IsDeleted && p.BrandId == viewModel.Id, b => b.Brand, c => c.Category);
+            var products = await unitOfWork.GetRepository<Product>().GetAllAsync(p => !p.IsDeleted && p.BrandId == viewModel.Id, b => b.Brand, c => c.Category, pi => pi.ProductImages);
+            foreach (var product in products)
+            {
+                product.ProductImages = await unitOfWork.GetRepository<ProductImage>().GetAllAsync(p => p.ProductId == product.Id && !p.Image.IsDeleted, p => p.Image);
+            }
             var mappedProducts = mapper.Map<IEnumerable<ProductViewModel>>(products);
             return mappedProducts;
         }
 
         public async Task<IEnumerable<ProductViewModel>> GetAllProductsWithBrandAndCategoryToCategoryNonDeletedAsync(CategoryViewModel viewModel)
         {
-            var products = await unitOfWork.GetRepository<Product>().GetAllAsync(p => !p.IsDeleted && p.CategoryId == viewModel.Id, b => b.Brand, c => c.Category);
+            var products = await unitOfWork.GetRepository<Product>().GetAllAsync(p => !p.IsDeleted && p.CategoryId == viewModel.Id, b => b.Brand, c => c.Category, pi => pi.ProductImages);
+            foreach (var product in products)
+            {
+                product.ProductImages = await unitOfWork.GetRepository<ProductImage>().GetAllAsync(p => p.ProductId == product.Id && !p.Image.IsDeleted, p => p.Image);
+            }
             var mappedProducts = mapper.Map<IEnumerable<ProductViewModel>>(products);
             return mappedProducts;
         }
 
         public async Task<IEnumerable<ProductViewModel>> GetAllProductsWithBrandAndCategoryDeletedAsync()
         {
-            var products = await unitOfWork.GetRepository<Product>().GetAllAsync(p => p.IsDeleted, p => p.Brand, p => p.Category);
+            var products = await unitOfWork.GetRepository<Product>().GetAllAsync(p => p.IsDeleted, p => p.Brand, p => p.Category, pi => pi.ProductImages);
+            foreach (var product in products)
+            {
+                product.ProductImages = await unitOfWork.GetRepository<ProductImage>().GetAllAsync(p => p.ProductId == product.Id && !p.Image.IsDeleted, p => p.Image);
+            }
             var mapped = mapper.Map<IEnumerable<ProductViewModel>>(products);
             return mapped;
         }
 
         public async Task<IEnumerable<ProductViewModel>> GetAllProductsWithBrandAndCategoryNonDeletedAsync()
         {
-            var products = await unitOfWork.GetRepository<Product>().GetAllAsync(p => !p.IsDeleted, p => p.Brand, p => p.Category);
+            var products = await unitOfWork.GetRepository<Product>().GetAllAsync(p => !p.IsDeleted, p => p.Brand, p => p.Category, pi => pi.ProductImages);
+            foreach (var product in products)
+            {
+                product.ProductImages = await unitOfWork.GetRepository<ProductImage>().GetAllAsync(p => p.ProductId == product.Id && !p.Image.IsDeleted, p => p.Image);
+            }
             var mapped = mapper.Map<IEnumerable<ProductViewModel>>(products);
             return mapped;
         }
@@ -106,6 +122,40 @@ namespace eCommerce.Service.Services.Concretes
             product.BrandId = viewModel.BrandId;
             product.CategoryId = viewModel.CategoryId;
             await unitOfWork.SaveAsync();
+        }
+
+        public async Task<IEnumerable<ProductViewModel>> GetSuggestedProductsAsync()
+        {
+            var products = await unitOfWork.GetRepository<Product>().GetAllAsync(p => !p.IsDeleted, p => p.ProductImages);
+            products = OrderRandomly(products, 5).ToList();
+            foreach (var product in products)
+            {
+                product.ProductImages = await unitOfWork.GetRepository<ProductImage>().GetAllAsync(p => p.ProductId == product.Id, p => p.Image);
+            }
+            var mappedProducts = mapper.Map<IEnumerable<ProductViewModel>>(products);
+            return mappedProducts;
+        }
+
+        private IEnumerable<Product> OrderRandomly(IEnumerable<Product> input, int irTake)
+        {
+            var indexes = Enumerable.Range(0, input.Count()).OrderBy(g => Guid.NewGuid()).Take(irTake).ToArray();
+            foreach (var index in indexes)
+            {
+                yield return input.ElementAt(index);
+            }
+        }
+
+        public async Task<ProductWithCommentsViewModel> GetProductWithCommentsByGuidAsync(Guid id)
+        {
+            var product = await unitOfWork.GetRepository<Product>().GetAsync(p => p.Id == id, c => c.Category, b => b.Brand, i => i.ProductImages);
+            product.ProductImages = await unitOfWork.GetRepository<ProductImage>().GetAllAsync(p => p.ProductId == product.Id && !p.Image.IsDeleted, p => p.Image);
+            product.Comments = await unitOfWork.GetRepository<Comment>().GetAllAsync(p => p.ProductId == id);
+            foreach (var comment in product.Comments)
+            {
+                comment.User = await unitOfWork.GetRepository<User>().GetAsync(p => p.Id == comment.UserId);
+            }
+            var mappedProduct = mapper.Map<ProductWithCommentsViewModel>(product);
+            return mappedProduct;
         }
     }
 }

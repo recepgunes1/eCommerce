@@ -1,0 +1,14 @@
+﻿.product-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.product {
+    flex: 0 0 calc(20% - 10px);
+}
+
+@media (max-width:576px) {
+    .product {
+        flex: 0 0 calc(50% - 10px);
+    }
+}

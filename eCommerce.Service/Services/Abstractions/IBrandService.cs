@@ -6,6 +6,7 @@ namespace eCommerce.Service.Services.Abstractions
     {
         Task<IEnumerable<BrandViewModel>> GetAllBrandsNonDeletedAsync();
         Task<IEnumerable<BrandViewModel>> GetAllBrandsDeletedAsync();
+        Task<IEnumerable<BrandViewModel>> GetSuggestedBrandsAsync();
         Task DeleteBrandAsync(Guid id);
         Task<BrandViewModel> GetBrandByGuidAsync(Guid id);
         Task UpdateBrandAsync(UpdateBrandViewModel viewModel);
