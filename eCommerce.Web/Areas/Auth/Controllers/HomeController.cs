@@ -43,6 +43,8 @@ namespace eCommerce.Web.Areas.Auth.Controllers
                     }
                     else if (result.Succeeded)
                     {
+                        if (!string.IsNullOrEmpty(Request.Form["ReturnUrl"]))
+                            return LocalRedirect(Request.Form["ReturnUrl"]);
                         return RedirectToAction("Index", "Home", new { Area = "" });
                     }
                     else
@@ -93,7 +95,7 @@ namespace eCommerce.Web.Areas.Auth.Controllers
 
         public IActionResult AccessDenied()
         {
-            return RedirectToAction("Index");
+            return RedirectToAction("Login", "Home", new { Area = "Auth" });
         }
     }
 }

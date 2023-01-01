@@ -71,7 +71,7 @@ namespace eCommerce.Web.Controllers
                 var chunkedProducts = products.Chunk(20);
                 ViewBag.Next = chunkedProducts.Count() > pageId ? pageId + 1 : 0;
                 ViewBag.Previous = chunkedProducts.Count() >= pageId ? pageId - 1 : 0;
-                ViewBag.Action =  "Brand";
+                ViewBag.Action = "Brand";
                 ViewBag.Id = id;
                 return View("Products", chunkedProducts.ElementAt(pageId - 1));
             }
@@ -79,7 +79,7 @@ namespace eCommerce.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Search(string input,int pageId = 1)
+        public async Task<IActionResult> Search(string input, int pageId = 1)
         {
             var products = await productService.SearchProductAsync(input);
             if (products.Count() == 0)

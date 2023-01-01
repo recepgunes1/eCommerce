@@ -19,7 +19,7 @@
             $("#comments").DataTable({
                 processing: true,
                 ajax: {
-                    url: '@Url.Action("GetCategories", "Trash", new {Area = "Admin"})',
+                    url: '@Url.Action("GetComments", "Trash", new {Area = "Admin"})',
                     dataSrc: ''
                 },
                 columns: [
@@ -35,7 +35,7 @@
                     },
                     {
                         data: "id", render: function (data) {
-                            var restoreLink = "@Url.Action("RestoreCategory", "Trash", new {Area = "Admin", id = "tempData"})";
+                            var restoreLink = "@Url.Action("RestoreComment", "Trash", new {Area = "Admin", id = "tempData"})";
                             restoreLink = restoreLink.replace("tempData", data);
                             return `<a class="btn btn-warning" href="${restoreLink}">Restore</a>`;
                         }

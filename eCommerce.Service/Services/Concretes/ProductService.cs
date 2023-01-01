@@ -149,7 +149,7 @@ namespace eCommerce.Service.Services.Concretes
         {
             var product = await unitOfWork.GetRepository<Product>().GetAsync(p => p.Id == id, c => c.Category, b => b.Brand, i => i.ProductImages);
             product.ProductImages = await unitOfWork.GetRepository<ProductImage>().GetAllAsync(p => p.ProductId == product.Id && !p.Image.IsDeleted, p => p.Image);
-            product.Comments = await unitOfWork.GetRepository<Comment>().GetAllAsync(p => p.ProductId == id);
+            product.Comments = await unitOfWork.GetRepository<Comment>().GetAllAsync(p => p.ProductId == id && !p.IsDeleted && p.IsVisible);
             foreach (var comment in product.Comments)
             {
                 comment.User = await unitOfWork.GetRepository<User>().GetAsync(p => p.Id == comment.UserId);
