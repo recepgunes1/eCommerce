@@ -7,23 +7,52 @@
 <div class="container pt-2 pb-2">
     <!-- https://stackoverflow.com/a/48486050/13955032 -->
     <div class="product-row">
-        @for (int i = 0; i < 20; i++)
+        @foreach (var prodct in Model)
         {
             <div class="product border rounded bg-light m-1 p-2 text-center">
-                <a class="btn" asp-action="Product" asp-controller="Home" asp-route-id="@Model.FirstOrDefault()?.Id">
-                    <img class="rounded border" src="~/images/@Model.FirstOrDefault()?.Images.FirstOrDefault()?.NameWithPath" style="height: 10em; width: 10em;" />
+                <a class="btn" asp-action="Product" asp-controller="Home" asp-route-id="@prodct.Id">
+                    <img class="rounded border" src="~/images/@prodct.Images.FirstOrDefault()?.NameWithPath" style="height: 10em; width: 10em;" />
                     <div>
                         <div class="mb-2">
-                            <span class="fw-bolder">@Model.FirstOrDefault()?.Brand.Name</span>
-                            <span>@Model.FirstOrDefault()?.Name</span>
+                            <span class="fw-bolder">@prodct.Brand.Name</span>
+                            <span>@prodct.Name</span>
                         </div>
                         <div>
-                            <span>@Model.FirstOrDefault()?.Price.ToString("N")</span>
+                            <span>@prodct.Price.ToString("N")</span>
                             <span>TL</span>
                         </div>
                     </div>
                 </a>
             </div>
         }
+    </div>
+
+    <div class="row text-center">
+        <div class="col">
+            @if (ViewBag.Previous > 0)
+            {
+                @if (ViewBag.Action == "Brand")
+                {
+                    <a asp-action="ProductsFromBrand" asp-controller="Home" asp-route-id="@ViewBag.Id" asp-route-pageId="@ViewBag.Previous" class="btn btn-primary w-50">Previous</a>
+                }
+                else if (ViewBag.Action == "Category")
+                {
+                    <a asp-action="ProductsFromCategory" asp-controller="Home" asp-route-id="@ViewBag.Id" asp-route-pageId="@ViewBag.Previous" class="btn btn-primary w-50">Previous</a>
+                }
+            }
+        </div>
+        <div class="col">
+            @if (ViewBag.Next > 0)
+            {
+                @if (ViewBag.Action == "Brand")
+                {
+                    <a asp-action="ProductsFromBrand" asp-controller="Home" asp-route-id="@ViewBag.Id" asp-route-pageId="@ViewBag.Next" class="btn btn-primary w-50">Next</a>
+                }
+                else if (ViewBag.Action == "Category")
+                {
+                    <a asp-action="ProductsFromCategory" asp-controller="Home" asp-route-id="@ViewBag.Id" asp-route-pageId="@ViewBag.Next" class="btn btn-primary w-50">Next</a>
+                }
+            }
+        </div>
     </div>
 </div>

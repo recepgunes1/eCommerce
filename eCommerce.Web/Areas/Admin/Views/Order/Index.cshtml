@@ -6,6 +6,7 @@
         <tr class="text-center">
             <th></th>
             <th>Id</th>
+            <th>User</th>
             <th>Created Date</th>
             <th>total</th>
         </tr>
@@ -16,7 +17,7 @@
     <script>
         function format(d) {
             var table = '<table class="table table-bordered table-striped"> <tr>';
-            for (let i = 0; i < d.length; i++) {
+            for (let i =0; i < d.length; i++) {
                 table += `<td><b>${d[i].brand}</b> ${d[i].name} | $ ${d[i].price}</td>`;
             }
             table += "</tr> </table>";
@@ -26,7 +27,7 @@
             var table = $("#orders").DataTable({
                 processing: true,
                 ajax: {
-                    url: '@Url.Action("GetOrders", "Home", new {Area = "Profile"})',
+                    url: '@Url.Action("GetOrders", "Order", new {Area = "Admin"})',
                     dataSrc: ''
                 },
                 columns: [
@@ -37,6 +38,7 @@
                         defaultContent: '',
                     },
                     { data: "id" },
+                    { data: "user" },
                     {
                         data: "createdDate", render: function (data) {
                             var date = new Date(data);
@@ -57,7 +59,7 @@
                 } else {
                     var id = row.data()["id"];
                     $.ajax({
-                        url: '@Url.Action("GetOrders", "Home", new {Area = "Profile"})',
+                        url: '@Url.Action("GetOrders", "Order", new {Area = "Admin"})',
                         success: function (response) {
                             var products = response.filter(r => r["id"] == id)[0]["products"];
                             row.child(format(products)).show();

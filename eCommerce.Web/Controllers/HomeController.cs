@@ -46,6 +46,10 @@ namespace eCommerce.Web.Controllers
             else if (products.Count() > 0)
             {
                 var chunkedProducts = products.Chunk(20);
+                ViewBag.Next = chunkedProducts.Count() > pageId ? pageId + 1 : 0;
+                ViewBag.Previous = chunkedProducts.Count() >= pageId ? pageId - 1 : 0;
+                ViewBag.Action = "Category";
+                ViewBag.Id = id;
                 return View("Products", chunkedProducts.ElementAt(pageId - 1));
 
             }
@@ -65,10 +69,29 @@ namespace eCommerce.Web.Controllers
             else if (products.Count() > 0)
             {
                 var chunkedProducts = products.Chunk(20);
+                ViewBag.Next = chunkedProducts.Count() > pageId ? pageId + 1 : 0;
+                ViewBag.Previous = chunkedProducts.Count() >= pageId ? pageId - 1 : 0;
+                ViewBag.Action =  "Brand";
+                ViewBag.Id = id;
                 return View("Products", chunkedProducts.ElementAt(pageId - 1));
-
             }
             return NotFound();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Search(string input,int pageId = 1)
+        {
+            var products = await productService.SearchProductAsync(input);
+            if (products.Count() == 0)
+            {
+                return View("Products", products);
+            }
+            else if (products.Count() > 0)
+            {
+                var chunkedProducts = products.Chunk(20);
+                return View("Products", chunkedProducts.ElementAt(pageId - 1));
+            }
+            return View("Index");
         }
 
         [Route("/Product/{id}")]

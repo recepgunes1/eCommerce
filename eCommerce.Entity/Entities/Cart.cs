@@ -4,9 +4,6 @@ namespace eCommerce.Entity.Entities
 {
     public class Cart : EntityBase
     {
-        public bool IsVisible { get; set; }
-
-
         public Guid ProductId { get; set; }
         public Product Product { get; set; }
 

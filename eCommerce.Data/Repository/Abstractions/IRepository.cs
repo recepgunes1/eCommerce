@@ -12,6 +12,7 @@ namespace eCommerce.Data.Repository.Abstractions
         Task<T> UpdateAsync(T Entity);
         Task DeleteAsync(T Entity);
         Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
+        Task<double> SumAsync(Expression<Func<T, double>> selector, Expression<Func<T, bool>> predicate = null);
         Task<int> CountAsync(Expression<Func<T, bool>> predicate = null);
     }
 }

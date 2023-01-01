@@ -19,7 +19,7 @@ namespace eCommerce.Web.Areas.Admin.Controllers
             this.mapper = mapper;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View();
         }
@@ -27,7 +27,7 @@ namespace eCommerce.Web.Areas.Admin.Controllers
         public async Task<IActionResult> GetUsers()
         {
             var users = await userService.GetAllUsersWithRoleNonLockedOutAsync();
-            return Json(users.Select(p => new { p.Id, p.FirstName, p.LastName, p.Email, role=p.Role.ToString() }));
+            return Json(users.Select(p => new { p.Id, p.FirstName, p.LastName, p.Email, role = p.Role.ToString() }));
         }
 
         public async Task<IActionResult> Add()

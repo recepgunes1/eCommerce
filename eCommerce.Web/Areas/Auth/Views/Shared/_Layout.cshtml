@@ -39,8 +39,7 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script>
         $(() => {
-            var pathname = window.location.pathname;
-            $('.nav > li > a[href="' + pathname + '"]').addClass('active');
+            $(`.navbar-nav > li > a[href="${window.location.pathname}"]`).addClass('active');
         })
     </script>
 </body>

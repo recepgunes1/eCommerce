@@ -1,4 +1,73 @@
-﻿@{
+﻿@model PaymentViewModel
+@{
     ViewBag.Title = "Payment";
-    ViewBag.Current = "Payment";
+}
+<div class="card shadow">
+    <h5 class="card-header">Payment</h5>
+    <div class="card-body">
+        <form method="post" asp-action="Payment" asp-controller="Home" asp-area="Cart">
+            <div class="mb-3 row">
+                <div class="form-group">
+                    <label asp-for="HolderName" class="form-label">Holder Name</label>
+                    <input asp-for="HolderName" type="text" class="form-control">
+                </div>
+            </div>
+
+            <div class="mb-3 row">
+                <div class="form-group">
+                    <label asp-for="CardNumber" class="form-label">Card Number</label>
+                    <input asp-for="CardNumber" type="text" class="form-control">
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Month" class="form-label">Month</label>
+                        <select asp-for="Month" class="form-select">
+                            @for (int i = 1; i < 13; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="Year" class="form-label">Year</label>
+                        <select asp-for="Year" class="form-select">
+                            @for (int i = 2023; i < 2035; i++)
+                            {
+                                <option value="@i">@i</option>
+                            }
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="col">
+                    <div class="form-group">
+                        <label asp-for="CVV" class="form-label">CVV/CVC</label>
+                        <input asp-for="CVV" class="form-control" type="number" max="999" min="0" maxlength="3">
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="text-center">
+                <input class="btn btn-success w-100" type="submit" value="Buy" />
+            </div>
+            <div class="text-danger mt-3" asp-validation-summary="All"></div>
+        </form>
+    </div>
+
+    <div class="card-footer">
+        <p>You will pay <span class="fw-bolder">@ViewBag.Price.ToString("C")</span>.</p>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 }

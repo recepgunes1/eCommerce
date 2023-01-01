@@ -6,12 +6,12 @@
 <div class="container-fluid border">
 
     <div class="card m-5">
-        <div class="card-header align-items-center">
+        <div class="card-header d-flex align-items-center justify-content-around">
             <ul id="listOfParentcategories" class="nav nav-tabs card-header-tabs">
                 @foreach (var parent in Model.ParentCategories)
                 {
                     <li class="nav-item">
-                        <button class="nav-link" id="@parent.Id" onclick="GetSubCategories('@parent.Id')">@parent.Name</button>
+                        <button class="nav-link me-1 ms-1 mt-1" id="@parent.Id" onclick="GetSubCategories('@parent.Id')">@parent.Name</button>
                     </li>
                 }
             </ul>
@@ -20,12 +20,12 @@
         </div>
     </div>
 
-    <div id="carouselExampleFade" class="carousel slide carousel-fade m-5 border rounded p-2" style="max-height: 550px" data-bs-ride="carousel">
+    <div id="carouselExampleFade" class="carousel slide carousel-fade m-5 shadow-lg rounded" style="max-height: 550px" data-bs-ride="carousel">
         <div class="carousel-inner" style="max-height: 550px">
             @foreach (var slide in Model.Slides)
             {
                 <div class="carousel-item @(activedFlag ? "active" :"")">
-                    <img src="~/images/@slide.Image.NameWithPath" height="500" style="width: 100%" />
+                    <img class="rounded" src="~/images/@slide.Image.NameWithPath" height="500" style="width: 100%" />
                     <div class="carousel-caption d-none d-md-block">
                         <h5>@slide.Header</h5>
                         <p>@slide.Description</p>
@@ -68,7 +68,7 @@
             <div class="list-group list-group-horizontal text-nowrap overflow-auto">
                 @foreach (var product in Model.SuggestedProducts)
                 {
-                    <a class="list-group-item list-group-item-action d-flex justify-content-start">
+                    <a asp-action="Product" asp-controller="Home" asp-area="" asp-route-id="@product.Id" class="list-group-item list-group-item-action d-flex justify-content-start">
                         <img src="~/images/@product.Images.First().NameWithPath" style="height: 8em; width: 8em;" />
                         <div class="ms-3">
                             <p>
@@ -76,60 +76,7 @@
                                 <span>@product.Name</span>
                             </p>
                             <p>
-                                <span>@product.Price.ToString("N")</span>
-                                <span>TL</span>
-                            </p>
-                        </div>
-                    </a>
-                    <a class="list-group-item list-group-item-action d-flex justify-content-start">
-                        <img src="~/images/@product.Images.First().NameWithPath" style="height: 8em; width: 8em;" />
-                        <div class="ms-3">
-                            <p>
-                                <span class="fw-bolder">@product.Brand.Name</span>
-                                <span>@product.Name</span>
-                            </p>
-                            <p>
-                                <span>@product.Price.ToString("N")</span>
-                                <span>TL</span>
-                            </p>
-                        </div>
-                    </a>
-                    <a class="list-group-item list-group-item-action d-flex justify-content-start">
-                        <img src="~/images/@product.Images.First().NameWithPath" style="height: 8em; width: 8em;" />
-                        <div class="ms-3">
-                            <p>
-                                <span class="fw-bolder">@product.Brand.Name</span>
-                                <span>@product.Name</span>
-                            </p>
-                            <p>
-                                <span>@product.Price.ToString("N")</span>
-                                <span>TL</span>
-                            </p>
-                        </div>
-                    </a>
-                    <a class="list-group-item list-group-item-action d-flex justify-content-start">
-                        <img src="~/images/@product.Images.First().NameWithPath" style="height: 8em; width: 8em;" />
-                        <div class="ms-3">
-                            <p>
-                                <span class="fw-bolder">@product.Brand.Name</span>
-                                <span>@product.Name</span>
-                            </p>
-                            <p>
-                                <span>@product.Price.ToString("N")</span>
-                                <span>TL</span>
-                            </p>
-                        </div>
-                    </a>
-                    <a class="list-group-item list-group-item-action d-flex justify-content-start">
-                        <img src="~/images/@product.Images.First().NameWithPath" style="height: 8em; width: 8em;" />
-                        <div class="ms-3">
-                            <p>
-                                <span class="fw-bolder">@product.Brand.Name</span>
-                                <span>@product.Name</span>
-                            </p>
-                            <p>
-                                <span>@product.Price.ToString("N")</span>
-                                <span>TL</span>
+                                <span>@product.Price.ToString("C")</span>
                             </p>
                         </div>
                     </a>
@@ -162,6 +109,8 @@
                             var url = '@Html.ActionLink("linkText", "ProductsFromCategory", "Home", new {id = "tempId"})';
                             var cell = row.insertCell();
                             cell.innerHTML = url.replace("linkText", chunkedResult[i][j]["name"]).replace("tempId", chunkedResult[i][j]["id"]);
+                            $(cell).find("a").addClass("text-decoration-none");
+                            console.log(cell);
                         }
                     }
                     document.getElementById("listOfSubCategories").appendChild(links);

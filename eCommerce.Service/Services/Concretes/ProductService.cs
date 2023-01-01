@@ -157,5 +157,16 @@ namespace eCommerce.Service.Services.Concretes
             var mappedProduct = mapper.Map<ProductWithCommentsViewModel>(product);
             return mappedProduct;
         }
+
+        public async Task<IEnumerable<ProductViewModel>> SearchProductAsync(string input)
+        {
+            var products = await unitOfWork.GetRepository<Product>().GetAllAsync(p => !p.IsDeleted && (p.Name.Contains(input) || p.Description.Contains(input) || p.Brand.Name.Contains(input) || p.Category.Name.Contains(input)), p => p.Brand, p => p.Category, pi => pi.ProductImages);
+            foreach (var product in products)
+            {
+                product.ProductImages = await unitOfWork.GetRepository<ProductImage>().GetAllAsync(p => p.ProductId == product.Id && !p.Image.IsDeleted, p => p.Image);
+            }
+            var mapped = mapper.Map<IEnumerable<ProductViewModel>>(products);
+            return mapped;
+        }
     }
 }

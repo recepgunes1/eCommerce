@@ -3,8 +3,10 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewData["Header"] - eCommerce</title>
+    <title>@ViewBag.Title - eCommerce</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/jquery-DataTables/DataTables-1.13.1/css/dataTables.bootstrap5.css" />
+
 </head>
 <body>
     <header class="border-bottom bg-light">
@@ -23,8 +25,18 @@
             </div>
         </nav>
     </header>
-    <div class="d-flex justify-content-center align-content-center m-5">
+    <div class="m-5 p-5">
         @RenderBody()
     </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-DataTables/DataTables-1.13.1/js/jquery.dataTables.js"></script>
+    <script src="~/lib/jquery-DataTables/DataTables-1.13.1/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(() => {
+            $(`.navbar-nav > li > a[href="${window.location.pathname}"]`).addClass('active');
+        })
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

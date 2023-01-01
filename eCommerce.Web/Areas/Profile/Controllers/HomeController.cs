@@ -7,16 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 namespace eCommerce.Web.Areas.Profile.Controllers
 {
     [Area("Profile")]
-    [Authorize(Roles = "admin, customer")]
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IUserService userService;
         private readonly ICommentService commentService;
+        private readonly IShoppingSessionService shoppingSessionService;
 
-        public HomeController(IUserService userService, ICommentService commentService)
+        public HomeController(IUserService userService, ICommentService commentService, IShoppingSessionService shoppingSessionService)
         {
             this.userService = userService;
             this.commentService = commentService;
+            this.shoppingSessionService = shoppingSessionService;
         }
 
         public async Task<IActionResult> Profile()
@@ -63,11 +65,23 @@ namespace eCommerce.Web.Areas.Profile.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Comments()
+        public async Task<IActionResult> GetOrders()
+        {
+            var user = await userService.GetAuthenticatedUserAsync<SimpleUserViewModel>();
+            var orders = await shoppingSessionService.GetOldOrdersAsync(user.Id);
+            return Json(orders.Select(p => new { p.Id, p.CreatedDate, products = p.Products.Select(i => new { name = i.Name, brand = i.Brand.Name, i.Price }), total = p.Products.Sum(p => p.Price) }));
+        }
+
+        public IActionResult Comments()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> GetComments()
         {
             var user = await userService.GetAuthenticatedUserAsync<UserViewModel>();
             var comments = await commentService.GetAllCommentsToUserIdNonDeletedAsync(user.Id);
-            return View(comments);
+            return Json(comments.Select(p => new { p.Id, p.Content, p.IsVisible, product = p.Product.Name }));
         }
 
         public async Task<IActionResult> DeleteComment(Guid id)

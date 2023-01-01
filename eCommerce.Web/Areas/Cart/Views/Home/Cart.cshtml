@@ -1,4 +1,93 @@
 ﻿@{
     ViewBag.Title = "Cart";
-    ViewBag.Current = "Cart";
+}
+
+<table id="cart" class="table table-bordered table-striped">
+    <thead>
+        <tr class="text-center">
+            <th>Image</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Brand</th>
+            <th>Category</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <td colspan="2">
+                <a class="btn btn-primary w-50" asp-action="Index" asp-controller="Home" asp-area="">Back to Shopping</a>
+            </td>
+            <td colspan="1">
+                <span class="fw-bold">Total:</span>
+                <span id="total"></span>
+            </td>
+            <td class="text-end" colspan="3">
+                <a id="btnPayment" class="btn btn-success w-50" asp-action="Payment" asp-asp-controller="Home" asp-area="Cart" >Complete Shopping</a>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+@section Scripts{
+    <!-- https://datatables.net/examples/advanced_init/footer_callback.html -->
+    <script>
+        $(document).ready(function () {
+            $("#cart").DataTable({
+                processing: true,
+                info: true,
+                ajax: {
+                    url: '@Url.Action("GetProducts", "Home", new {Area = "Cart"})',
+                    dataSrc: ''
+                },
+                columns: [
+                    {
+                        data: "image", render: function (data) {
+                            return `<img class="mx-auto d-block img-thumbnail" style="height: 6em; width: 6em;" src="/images/${data}"/>`
+                        }
+                    },
+                    { data: "name" },
+                    {
+                        data: "price", render: function (data) {
+                            return data.toLocaleString(
+                                undefined, // leave undefined to use the visitor's browser
+                                // locale or a string like 'en-US' to override it.
+                                { minimumFractionDigits: 2 }
+                            );
+                        }
+                    },
+                    { data: "brand" },
+                    { data: "category" },
+                    {
+                        data: "id", render: function (data) {
+                            var deleteLink = "@Url.Action("RemoveFromCart", "Home", new {Area = "Cart", productId = "tempData"})";
+                            deleteLink = deleteLink.replace("tempData", data);
+                            return `<a class="btn btn-danger" href="${deleteLink}">Delete</a>`;
+                        }
+                    },
+                ],
+                footerCallback: function (row, data, start, end, display) {
+                    var api = this.api();
+                    // Remove the formatting to get integer data for summation
+                    var intVal = function (i) {
+                        return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                    };
+                    total = api
+                        .column(2)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+                    $("#total").text(total.toLocaleString(
+                        undefined, // leave undefined to use the visitor's browser
+                        // locale or a string like 'en-US' to override it.
+                        { minimumFractionDigits: 2 }
+                    ));
+                    if(total == 0){
+                        $("#btnPayment").remove();
+                    }
+                }
+            });
+        });
+    </script>
 }

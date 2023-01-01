@@ -94,9 +94,6 @@ namespace eCommerce.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsVisible")
-                        .HasColumnType("bit");
-
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");
 
@@ -299,14 +296,14 @@ namespace eCommerce.Data.Migrations
                         new
                         {
                             Id = new Guid("ee19984b-50e6-42c6-8b3c-89e578a69625"),
-                            ConcurrencyStamp = "13acb40d-4239-45be-a2b3-4a4fa5a39ddd",
+                            ConcurrencyStamp = "74607947-5864-4f85-afd0-cfd0a3cf6f93",
                             Name = "customer",
                             NormalizedName = "CUSTOMER"
                         },
                         new
                         {
                             Id = new Guid("5d9fb419-99c9-4d2a-9f22-4b95f70a6861"),
-                            ConcurrencyStamp = "7396780a-9e96-49ab-9905-6deda1e32d2f",
+                            ConcurrencyStamp = "1df1c0fb-c125-442b-b318-1878a9a3622f",
                             Name = "admin",
                             NormalizedName = "ADMIN"
                         });
@@ -345,11 +342,14 @@ namespace eCommerce.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsDeleted")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
@@ -435,7 +435,7 @@ namespace eCommerce.Data.Migrations
                             Id = new Guid("71a153a8-6da3-4bec-8538-7ea03e273eae"),
                             AccessFailedCount = 0,
                             Address = "çermik",
-                            ConcurrencyStamp = "0a98b9b8-c32f-4820-b83f-a5b46b7e3dc7",
+                            ConcurrencyStamp = "d0295e2a-0a2b-4d88-8252-d6de09ad3f04",
                             DateBirth = new DateTime(2000, 10, 23, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@system.com",
                             FirstName = "admin",
@@ -443,8 +443,8 @@ namespace eCommerce.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@SYSTEM.COM",
                             NormalizedUserName = "ADMIN@SYSTEM.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKK+m0MzsNi8BGG2fOwjsFuAkKJGkyDROPKR4oaiNr4DtUR7tmmxHHggN53t+gMK4Q==",
-                            SecurityStamp = "7ee9411a-74f4-4b82-a31c-e4a293b6a533",
+                            PasswordHash = "AQAAAAIAAYagAAAAEHe+AcpM8jfMRCTrRisnNIAm4GMTWel+8P1U0sRP2n9m2uz4z+m0PoRgxumTyz7pIg==",
+                            SecurityStamp = "cdf47608-b285-4878-9097-3f36f74f110c",
                             UserName = "admin@system.com"
                         });
                 });

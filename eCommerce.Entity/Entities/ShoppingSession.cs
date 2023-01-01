@@ -4,8 +4,8 @@ namespace eCommerce.Entity.Entities
 {
     public class ShoppingSession : EntityBase
     {
-        public int Status { get; set; }
-
+        public bool IsActive { get; set; }
+        public bool IsCompleted { get; set; }
         public Guid UserId { get; set; }
         public User? User { get; set; }
 

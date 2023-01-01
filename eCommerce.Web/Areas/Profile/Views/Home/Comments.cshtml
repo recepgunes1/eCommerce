@@ -1,8 +1,8 @@
-﻿@model IEnumerable<CommentViewModel>
-@{
+﻿@{
     ViewBag.Title = "Comments";
 }
-<table class="table table-bordered table-striped">
+
+<table id="comments" class="table table-bordered table-striped">
     <thead>
         <tr class="text-center">
             <th>Content</th>
@@ -11,17 +11,31 @@
             <th>Operation</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var comment in Model)
-        {
-            <tr>
-                <td>@comment.Content</td>
-                <td>@comment.IsVisible</td>
-                <td>@comment.Product.Name</td>
-                <td>
-                    <a class="btn btn-danger" asp-action="DeleteComment" asp-controller="Home" asp-area="Profile" asp-route-Id="@comment.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
 </table>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#comments").DataTable({
+                processing: true,
+                ajax: {
+                    url: '@Url.Action("GetComments", "Home", new {Area = "Profile"})',
+                    dataSrc: ''
+                },
+                columns: [
+                    { data: "content" },
+                    { data: "isVisible" },
+                    { data: "product" },
+                    {
+                        data: "id", render: function (data) {
+                            var deleteLink = "@Url.Action("DeleteComment", "Home", new {Area = "Profile", id = "tempData"})";
+                            deleteLink = deleteLink.replace("tempData", data);
+                            return `<a class="btn btn-danger" href="${deleteLink}">Delete</a>`;
+                        }
+                    },
+                ]
+            });
+        });
+    </script>
+}
+

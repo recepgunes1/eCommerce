@@ -12,10 +12,12 @@ namespace eCommerce.Service.Extensions
         {
             services.AddScoped<IBrandService, BrandService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICartService, CartService>();
             services.AddScoped<ICarouselService, CarouselService>();
             services.AddScoped<ICommentService, CommentService>();
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IShoppingSessionService, ShoppingSessionService>();
             services.AddScoped<IUserService, UserService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             return services;

@@ -67,7 +67,7 @@ namespace eCommerce.Data.Repository.Concretes
                     query = query.Include(property);
                 }
             }
-            return await query.SingleAsync();
+            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<T> GetByGuidAsync(Guid guid)
@@ -82,6 +82,14 @@ namespace eCommerce.Data.Repository.Concretes
                 Table.Update(Entity);
             });
             return Entity;
+        }
+
+        public async Task<double> SumAsync(Expression<Func<T, double>> selector, Expression<Func<T, bool>> predicate = null)
+        {
+            IQueryable<T> query = Table;
+            if (predicate == null)
+                return await query.SumAsync(selector);
+            return await query.Where(predicate).SumAsync(selector);
         }
     }
 }

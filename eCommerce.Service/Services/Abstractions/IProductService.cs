@@ -12,6 +12,7 @@ namespace eCommerce.Service.Services.Abstractions
         Task<IEnumerable<ProductViewModel>> GetAllProductsWithBrandAndCategoryNonDeletedAsync();
         Task<IEnumerable<ProductViewModel>> GetAllProductsWithBrandAndCategoryDeletedAsync();
         Task<IEnumerable<ProductViewModel>> GetSuggestedProductsAsync();
+        Task<IEnumerable<ProductViewModel>> SearchProductAsync(string input);
         Task DeleteProductAsync(Guid id);
         Task<ProductViewModel> GetProductByGuidAsync(Guid id);
         Task<ProductWithCommentsViewModel> GetProductWithCommentsByGuidAsync(Guid id);

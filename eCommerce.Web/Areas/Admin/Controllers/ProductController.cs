@@ -33,7 +33,7 @@ namespace eCommerce.Web.Areas.Admin.Controllers
         public async Task<IActionResult> GetProducts()
         {
             var products = await productService.GetAllProductsWithBrandAndCategoryNonDeletedAsync();
-            return Json(products.Select(p => new { p.Id, p.Name, p.Price, p.Quantity, brand = p.Brand.Name, category = p.Category.Name, p.CreatedDate, image = p.Images.FirstOrDefault()?.NameWithPath }));;
+            return Json(products.Select(p => new { p.Id, p.Name, p.Price, p.Quantity, brand = p.Brand.Name, category = p.Category.Name, p.CreatedDate, image = p.Images.FirstOrDefault()?.NameWithPath })); ;
 
         }
 
