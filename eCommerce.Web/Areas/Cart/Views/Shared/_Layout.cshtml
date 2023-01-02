@@ -14,11 +14,11 @@
             <div class="row align-items-center">
                 <div class="col d-flex justify-content-center text-center">
                     <div class="m-2 pe-5">
-                        <img src="~/svg/cart/1-circle@(!ReferenceEquals(ViewData["Current"], "Cart" ) ? "" : "-fill").svg" width="32" height="32" />
+                        <img id="imgCart" src="~/svg/cart/1-circle.svg" width="32" height="32" />
                         Cart
                     </div>
                     <div class="m-2">
-                        <img src="~/svg/cart/2-circle@(!ReferenceEquals(ViewData["Current"], "Payment" ) ? "" : "-fill").svg" width="32" height="32" />
+                        <img id="imgPayment" src="~/svg/cart/2-circle.svg" width="32" height="32" />
                         Payment
                     </div>
                 </div>
@@ -34,7 +34,12 @@
     <script src="~/lib/jquery-DataTables/DataTables-1.13.1/js/dataTables.bootstrap5.min.js"></script>
     <script>
         $(() => {
-            $(`.navbar-nav > li > a[href="${window.location.pathname}"]`).addClass('active');
+            if (window.location.pathname.endsWith("Cart")) {
+                $("#imgCart").attr("src", $("#imgCart").attr("src").replace(".svg", "-fill.svg"));
+            }
+            if (window.location.pathname.endsWith("Payment")) {
+                $("#imgPayment").attr("src", $("#imgPayment").attr("src").replace(".svg", "-fill.svg"));
+            }
         })
     </script>
     @await RenderSectionAsync("Scripts", required: false)

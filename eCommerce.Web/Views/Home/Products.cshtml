@@ -1,10 +1,14 @@
 ﻿@model IEnumerable<ProductViewModel>
 @{
-    ViewBag.Title = "Products";
+    ViewBag.Title = $"Products - {ViewBag.Header}";
 }
 
-
 <div class="container pt-2 pb-2">
+    <div class="row">
+        <div class="col">
+            <div class="h3 border-bottom pb-3 ps-2">@ViewBag.Header</div>
+        </div>
+    </div>
     <!-- https://stackoverflow.com/a/48486050/13955032 -->
     <div class="product-row">
         @foreach (var prodct in Model)

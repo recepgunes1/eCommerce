@@ -35,10 +35,10 @@ namespace eCommerce.AutomatedUITests.Admin
             driver.Navigate().GoToUrl($"{Config.AppUrl}/Admin/User/Index");
             new SelectElement(driver.FindElement(By.Name("users_length"))).SelectByIndex(3);
             var buttons = driver.FindElements(By.CssSelector("a[class='btn btn-success']"));
-            buttons.ElementAt(random.Next(0, buttons.Count)).Click();
+            buttons.ElementAt(random.Next(1, buttons.Count)).Click();
             driver.FindElement(By.Id("FirstName")).ClearAndSendValue("test_v2");
             driver.FindElement(By.Id("LastName")).ClearAndSendValue("user_v2");
-            driver.FindElement(By.Id("Email")).ClearAndSendValue($"test_v2{DateTime.Now.Millisecond}@user_v2.com");
+            driver.FindElement(By.Id("Email")).ClearAndSendValue($"testv2{DateTime.Now.Millisecond}@userv2.com");
             driver.FindElement(By.Id("DateBirth")).ClearAndSendValue("02/02/1993");
             driver.FindElement(By.Id("Address")).ClearAndSendValue("V2_Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
             var role = new SelectElement(driver.FindElement(By.Id("RoleId")));

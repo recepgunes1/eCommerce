@@ -39,6 +39,7 @@ namespace eCommerce.Web.Controllers
         {
             var category = await categoryService.GetCategoryByGuidAsync(id);
             var products = await productService.GetAllProductsWithBrandAndCategoryToCategoryNonDeletedAsync(category);
+            ViewBag.Header = category.Name;
             if (products.Count() == 0)
             {
                 return View("Products", products);
@@ -62,6 +63,7 @@ namespace eCommerce.Web.Controllers
         {
             var brand = await brandService.GetBrandByGuidAsync(id);
             var products = await productService.GetAllProductsWithBrandAndCategoryToBrandNonDeletedAsync(brand);
+            ViewBag.Header = brand.Name;
             if (products.Count() == 0)
             {
                 return View("Products", products);
@@ -98,6 +100,8 @@ namespace eCommerce.Web.Controllers
         public async Task<IActionResult> Product(Guid id)
         {
             var product = await productService.GetProductWithCommentsByGuidAsync(id);
+            var category = await categoryService.GetCategoryByGuidAsync(product.Category.Id);
+            ViewBag.Path = $"{category.ParentCategory.Name} > {category.Name} > {product.Name}";
             return View(product);
         }
 

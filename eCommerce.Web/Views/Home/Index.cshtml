@@ -65,7 +65,7 @@
             <h3 class="">Products</h3>
         </div>
         <div class="row">
-            <div class="list-group list-group-horizontal text-nowrap overflow-auto">
+            <div class="list-group list-group-horizontal text-nowrap overflow-auto" id="products">
                 @foreach (var product in Model.SuggestedProducts)
                 {
                     <a asp-action="Product" asp-controller="Home" asp-area="" asp-route-id="@product.Id" class="list-group-item list-group-item-action d-flex justify-content-start">

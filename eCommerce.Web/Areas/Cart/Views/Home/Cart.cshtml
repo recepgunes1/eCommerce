@@ -23,7 +23,7 @@
                 <span id="total"></span>
             </td>
             <td class="text-end" colspan="3">
-                <a id="btnPayment" class="btn btn-success w-50" asp-action="Payment" asp-asp-controller="Home" asp-area="Cart" >Complete Shopping</a>
+                <a id="Payment" class="btn btn-success w-50" asp-action="Payment" asp-asp-controller="Home" asp-area="Cart">Complete Shopping</a>
             </td>
         </tr>
     </tfoot>
@@ -83,8 +83,10 @@
                         // locale or a string like 'en-US' to override it.
                         { minimumFractionDigits: 2 }
                     ));
-                    if(total == 0){
-                        $("#btnPayment").remove();
+                    if (total == 0) {
+                        $("#Payment").hide();
+                    } else {
+                        $("#Payment").show();
                     }
                 }
             });
