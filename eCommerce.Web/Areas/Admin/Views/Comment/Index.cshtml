@@ -35,12 +35,13 @@
                         }
                     },
                     {
-                        data: "id", render: function (data) {
+                        data: "id", render: function (data, type, row) {
                             var deleteLink = "@Url.Action("Delete", "Comment", new {Area = "Admin", id = "tempData"})";
                             deleteLink = deleteLink.replace("tempData", data);
                             var blockLink = "@Url.Action("Block", "Comment", new {Area = "Admin", id = "tempData"})";
                             blockLink = blockLink.replace("tempData", data);
-                            return `<a class="btn btn-danger" href="${deleteLink}">Delete</a> <a class="btn btn-warning" href="${blockLink}">Block</a>`;
+                            console.log(row);
+                            return `<a class="btn btn-danger" href="${deleteLink}">Delete</a> <a class="btn btn-warning" href="${blockLink}">${row["isVisible"] ? "Block" : "Unblock"}</a>`;
                         }
                     },
                 ]

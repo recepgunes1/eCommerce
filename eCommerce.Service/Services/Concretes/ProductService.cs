@@ -168,5 +168,13 @@ namespace eCommerce.Service.Services.Concretes
             var mapped = mapper.Map<IEnumerable<ProductViewModel>>(products);
             return mapped;
         }
+
+        public async Task<(int DeletedInStock, int NonDeletedInStock, int NonDeletedOutOfStock)> CountProductsAsync()
+        {
+            var deletedInStock = await unitOfWork.GetRepository<Product>().CountAsync(p => p.IsDeleted && p.Quantity > 0);
+            var nonDeletedInStock = await unitOfWork.GetRepository<Product>().CountAsync(p => !p.IsDeleted && p.Quantity > 0);
+            var nonDeletedOutOfStock = await unitOfWork.GetRepository<Product>().CountAsync(p => !p.IsDeleted && p.Quantity == 0);
+            return (deletedInStock, nonDeletedInStock, nonDeletedOutOfStock);
+        }
     }
 }

@@ -34,7 +34,7 @@ namespace eCommerce.Web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Block(Guid id)
         {
-            await commentService.BlockCommentAsync(id);
+            await commentService.ChangeCommentVisibilityAsync(id);
             return RedirectToAction("Index", "Comment", new { Area = "Admin" });
         }
     }

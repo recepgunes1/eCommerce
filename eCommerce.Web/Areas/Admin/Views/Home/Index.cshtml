@@ -1,3 +1,100 @@
-﻿@{
+﻿@model AdminDashboardViewModel
+@{
     ViewBag.Title = "Dashboard";
+}
+<div class="row">
+    <div class="col chart-container">
+        <canvas id="categories">
+        </canvas>
+    </div>
+    <div class="col chart-container">
+        <canvas id="products">
+        </canvas>
+    </div>
+    <div class="col chart-container">
+        <canvas id="comments">
+        </canvas>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/lib/chartjs/dist/chart.umd.js"></script>
+    <script>
+        new Chart(document.getElementById("categories"), {
+            type: 'pie',
+            data: {
+                labels: ["Parent(Deleted)", "Parent(NonDeleted)", "Children(Deleted)", "Children(NonDeleted)"],
+                datasets: [{
+                    label: "Amount",
+                    data: [@Model.Category.ParentDeleted, @Model.Category.ParentNonDeleted, @Model.Category.ChildDeleted, @Model.Category.ChildNonDeleted],
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(75, 192, 192)',
+                        'rgb(255, 205, 86)',
+                        'rgb(54, 162, 235)'
+                    ]
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Number of Categories'
+                    },
+                    responsive: true,
+                    resizeDelay: 0,
+
+                }
+            }
+        });
+        new Chart(document.getElementById("products"), {
+            type: 'pie',
+            data: {
+                labels: ["Product(Deleted/InStock)", "Product(NonDeleted/InStock)", "Product(NonDeleted/OutOfStock)"],
+                datasets: [{
+                    label: "Amount",
+                    data: [@Model.Product.DeletedInStock, @Model.Product.NonDeletedInStock, @Model.Product.NonDeletedOutOfStock],
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(75, 192, 192)',
+                        'rgb(255, 205, 86)'
+                    ]
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Number of Products'
+                    },
+                    responsive: true,
+                    resizeDelay: 0,
+                }
+            }
+        });
+        new Chart(document.getElementById("comments"), {
+            type: 'pie',
+            data: {
+                labels: ["Deleted", "Visible", "Invisible"],
+                datasets: [{
+                    label: "Amount",
+                    data: [@Model.Comment.Deleted, @Model.Comment.Visible, @Model.Comment.Invisible],
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(75, 192, 192)',
+                        'rgb(255, 205, 86)',
+                    ]
+                }]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Number of Comments'
+                    },
+                    responsive: true,
+                    resizeDelay: 0,
+                }
+            }
+        });
+    </script>
 }

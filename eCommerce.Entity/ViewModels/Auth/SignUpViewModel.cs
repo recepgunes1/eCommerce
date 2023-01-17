@@ -22,8 +22,5 @@ namespace eCommerce.Entity.ViewModels.Auth
         public DateTime DateBirth { get; set; }
 
         public string Address { get; set; }
-
-        public bool TermsOfService { get; set; }
-        public bool ReceiveMessages { get; set; }
     }
 }

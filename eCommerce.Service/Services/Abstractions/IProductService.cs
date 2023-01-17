@@ -18,5 +18,6 @@ namespace eCommerce.Service.Services.Abstractions
         Task<ProductWithCommentsViewModel> GetProductWithCommentsByGuidAsync(Guid id);
         Task UpdateProductAsync(UpdateProductViewModel viewModel);
         Task RestoreProductAsync(Guid id);
+        Task<(int DeletedInStock, int NonDeletedInStock, int NonDeletedOutOfStock)> CountProductsAsync();
     }
 }

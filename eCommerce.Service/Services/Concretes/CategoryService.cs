@@ -28,10 +28,29 @@ namespace eCommerce.Service.Services.Concretes
             await unitOfWork.SaveAsync();
         }
 
+        public async Task<(int ParentDeleted, int ParentNonDeleted, int ChildDeleted, int ChildNonDeleted)> CountCategoriesAsync()
+        {
+            var parentsDeleted =  await unitOfWork.GetRepository<Category>().CountAsync(p => p.ParentCategory == null && p.IsDeleted);
+            var parentsNonDeleted =  await unitOfWork.GetRepository<Category>().CountAsync(p => p.ParentCategory == null && !p.IsDeleted);
+            var childrenDeleted =  await unitOfWork.GetRepository<Category>().CountAsync(p => p.ParentCategory != null && p.IsDeleted);
+            var childrenNonDeleted =  await unitOfWork.GetRepository<Category>().CountAsync(p => p.ParentCategory != null && !p.IsDeleted);
+            return (parentsDeleted, parentsNonDeleted, childrenDeleted, childrenNonDeleted);
+        }
+
         public async Task DeleteCategoryAsync(Guid id)
         {
             var category = await unitOfWork.GetRepository<Category>().GetByGuidAsync(id);
             category.IsDeleted = true;
+            var children = await unitOfWork.GetRepository<Category>().GetAllAsync(p => p.ParentCategoryId == id);
+            foreach (var child in children)
+            {
+                child.IsDeleted = true;
+                var products = await unitOfWork.GetRepository<Product>().GetAllAsync(p => p.CategoryId == child.Id);
+                foreach (var product in products)
+                {
+                    product.IsDeleted = true;
+                }
+            }
             await unitOfWork.SaveAsync();
         }
 

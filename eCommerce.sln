@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerce.Web", "eCommerce.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerce.Service", "eCommerce.Service\eCommerce.Service.csproj", "{772DD4DC-8006-4FB9-8937-1C92B173ABF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "eCommerce.AutomatedUITests", "eCommerce.AutomatedUITests\eCommerce.AutomatedUITests.csproj", "{947FE7D5-CC18-4C15-956E-0B5A3FE75DA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "eCommerce.AutomatedUITests", "eCommerce.AutomatedUITests\eCommerce.AutomatedUITests.csproj", "{947FE7D5-CC18-4C15-956E-0B5A3FE75DA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

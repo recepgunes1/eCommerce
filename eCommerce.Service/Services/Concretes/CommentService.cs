@@ -21,10 +21,10 @@ namespace eCommerce.Service.Services.Concretes
             this.mapper = mapper;
             _user = httpContext.HttpContext.User;
         }
-        public async Task BlockCommentAsync(Guid id)
+        public async Task ChangeCommentVisibilityAsync(Guid id)
         {
             var comment = await unitOfWork.GetRepository<Comment>().GetByGuidAsync(id);
-            comment.IsVisible = false;
+            comment.IsVisible = !comment.IsVisible;
             await unitOfWork.SaveAsync();
         }
 
@@ -70,6 +70,14 @@ namespace eCommerce.Service.Services.Concretes
             mappedComment.IsVisible = true;
             await unitOfWork.GetRepository<Comment>().AddAsync(mappedComment);
             await unitOfWork.SaveAsync();
+        }
+
+        public async Task<(int Deleted, int Visible, int Invisible)> CountCommentsAsync()
+        {
+            var deleted = await unitOfWork.GetRepository<Comment>().CountAsync(p => p.IsDeleted);
+            var visible = await unitOfWork.GetRepository<Comment>().CountAsync(p => !p.IsDeleted && p.IsVisible);
+            var invisible = await unitOfWork.GetRepository<Comment>().CountAsync(p => p.IsDeleted && !p.IsVisible);
+            return (deleted, visible, invisible);
         }
     }
 }

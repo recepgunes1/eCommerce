@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using eCommerce.Service.Services.Abstractions;
+using eCommerce.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eCommerce.Web.Areas.Admin.Controllers
@@ -7,9 +9,24 @@ namespace eCommerce.Web.Areas.Admin.Controllers
     [Authorize(Roles = "admin")]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ICategoryService categoryService;
+        private readonly IProductService productService;
+        private readonly ICommentService commentService;
+
+        public HomeController(ICategoryService categoryService, IProductService productService, ICommentService commentService)
         {
-            return View();
+            this.categoryService = categoryService;
+            this.productService = productService;
+            this.commentService = commentService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var viewModel = new AdminDashboardViewModel();
+            viewModel.Category = await categoryService.CountCategoriesAsync();
+            viewModel.Product = await productService.CountProductsAsync();
+            viewModel.Comment = await commentService.CountCommentsAsync();
+            return View(viewModel);
         }
     }
 }

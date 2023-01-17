@@ -20,14 +20,15 @@
 
     <div class="row mb-3">
         <div class="col">
-            <div class="form-check">
+            <div class="form-check text-nowrap">
                 @Html.CheckBoxFor(p => p.RememberMe, new {@class = "form-check-input"})
-                @Html.LabelFor(p => p.RememberMe, new {@class = "form-check-label"})
-
+                <label class="form-check-label" asp-for="RememberMe">Remember Me</label>
             </div>
         </div>
         <div class="col">
-            Reset Password
+            <div class="invisible">
+                <span>TEXTTEXTTEXTTEXT</span>
+            </div>
         </div>
     </div>
     <div class="row mb-3">

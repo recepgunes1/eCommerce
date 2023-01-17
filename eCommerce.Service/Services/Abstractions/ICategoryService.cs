@@ -14,6 +14,6 @@ namespace eCommerce.Service.Services.Abstractions
         Task DeleteCategoryAsync(Guid id);
         Task UpdateCategoryAsync(UpdateCategoryViewModel viewModel);
         Task RestoreCategoryAsync(Guid id);
-
+        Task<(int ParentDeleted, int ParentNonDeleted, int ChildDeleted, int ChildNonDeleted)> CountCategoriesAsync();
     }
 }

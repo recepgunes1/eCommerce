@@ -122,7 +122,5 @@ namespace eCommerce.Web.Areas.Admin.Controllers
             }
             return NotFound();
         }
-
-
     }
 }

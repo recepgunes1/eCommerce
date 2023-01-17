@@ -89,12 +89,7 @@
                 type: "GET",
                 url: "@(Url.Action("AddProductToCart", "Home", new { Area = "Cart", productId = "tempData" }))".replace("tempData", id),
             });
+            location.reload();
         }
     </script>
 }
-@*
-
-                            var deleteLink = "@Url.Action("Delete", "Brand", new {Area = "Admin", id = "tempData"})";
-                            deleteLink = deleteLink.replace("tempData", data);
-
-*@
