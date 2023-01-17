@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
 namespace eCommerce.AutomatedUITests.Admin
@@ -8,7 +7,7 @@ namespace eCommerce.AutomatedUITests.Admin
     {
         private readonly IWebDriver driver;
 
-        public BrandTest() => driver = new ChromeDriver(Config.DriverDirectory);
+        public BrandTest() => driver = Config.ChromeDriver;
 
         [Fact]
         public void Add()
@@ -18,29 +17,24 @@ namespace eCommerce.AutomatedUITests.Admin
             driver.FindElement(By.Id("Name")).ClearAndSendValue($"test brand {DateTime.Now.Millisecond}");
             driver.FindElement(By.Id("Photo")).ClearAndSendValue(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "brand.png"));
             driver.FindElement(By.Id("Add")).Click();
-
         }
 
         [Fact]
         public void Delete()
         {
-            var random = new Random();
             driver.LoginAsAdmin();
             driver.Navigate().GoToUrl($"{Config.AppUrl}/Admin/Brand/Index");
             new SelectElement(driver.FindElement(By.Name("brands_length"))).SelectByIndex(3);
-            var buttons = driver.FindElements(By.CssSelector("a[class='btn btn-danger']"));
-            buttons.ElementAt(random.Next(0, buttons.Count)).Click();
+            driver.ClickElementRandomly("a[class='btn btn-danger']");
         }
 
         [Fact]
         public void Update()
         {
-            var random = new Random();
             driver.LoginAsAdmin();
             driver.Navigate().GoToUrl($"{Config.AppUrl}/Admin/Brand/Index");
             new SelectElement(driver.FindElement(By.Name("brands_length"))).SelectByIndex(3);
-            var buttons = driver.FindElements(By.CssSelector("a[class='btn btn-success']"));
-            buttons.ElementAt(random.Next(0, buttons.Count)).Click();
+            driver.ClickElementRandomly("a[class='btn btn-success']");
             driver.FindElement(By.Id("Name")).ClearAndSendValue($"update brand {DateTime.Now.Millisecond}");
             driver.FindElement(By.Id("Photo")).ClearAndSendValue(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "brand.png"));
             driver.FindElement(By.Id("Update")).Click();

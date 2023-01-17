@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
 namespace eCommerce.AutomatedUITests.Admin
@@ -8,7 +7,7 @@ namespace eCommerce.AutomatedUITests.Admin
     {
         private readonly IWebDriver driver;
 
-        public ProductTest() => driver = new ChromeDriver(Config.DriverDirectory);
+        public ProductTest() => driver = Config.ChromeDriver;
 
         [Fact]
         public void Add()
@@ -32,12 +31,10 @@ namespace eCommerce.AutomatedUITests.Admin
         [Fact]
         public void Delete()
         {
-            var random = new Random();
             driver.LoginAsAdmin();
             driver.Navigate().GoToUrl($"{Config.AppUrl}/Admin/Product/Index");
             new SelectElement(driver.FindElement(By.Name("products_length"))).SelectByIndex(3);
-            var buttons = driver.FindElements(By.CssSelector("a[class='btn btn-danger']"));
-            buttons.ElementAt(random.Next(0, buttons.Count)).Click();
+            driver.ClickElementRandomly("a[class='btn btn-danger']");
         }
 
         [Fact]
@@ -47,6 +44,7 @@ namespace eCommerce.AutomatedUITests.Admin
             driver.LoginAsAdmin();
             driver.Navigate().GoToUrl($"{Config.AppUrl}/Admin/Product/Index");
             new SelectElement(driver.FindElement(By.Name("products_length"))).SelectByIndex(3);
+            Thread.Sleep(2000);
             var buttons = driver.FindElements(By.CssSelector("a[class='btn btn-success']"));
             buttons.ElementAt(random.Next(0, buttons.Count)).Click();
             driver.FindElement(By.Id("Name")).ClearAndSendValue($"update product {DateTime.Now.Millisecond}");

@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
 namespace eCommerce.AutomatedUITests.Admin
@@ -7,7 +6,7 @@ namespace eCommerce.AutomatedUITests.Admin
     public class UserTest : IDisposable
     {
         private readonly IWebDriver driver;
-        public UserTest() => driver = new ChromeDriver(Config.DriverDirectory);
+        public UserTest() => driver = Config.ChromeDriver;
 
         [Fact]
         public void Add()
@@ -34,6 +33,7 @@ namespace eCommerce.AutomatedUITests.Admin
             driver.LoginAsAdmin();
             driver.Navigate().GoToUrl($"{Config.AppUrl}/Admin/User/Index");
             new SelectElement(driver.FindElement(By.Name("users_length"))).SelectByIndex(3);
+            Thread.Sleep(2000);
             var buttons = driver.FindElements(By.CssSelector("a[class='btn btn-success']"));
             buttons.ElementAt(random.Next(1, buttons.Count)).Click();
             driver.FindElement(By.Id("FirstName")).ClearAndSendValue("test_v2");
@@ -53,6 +53,7 @@ namespace eCommerce.AutomatedUITests.Admin
             driver.LoginAsAdmin();
             driver.Navigate().GoToUrl($"{Config.AppUrl}/Admin/User/Index");
             new SelectElement(driver.FindElement(By.Name("users_length"))).SelectByIndex(3);
+            Thread.Sleep(2000);
             var buttons = driver.FindElements(By.CssSelector("a[class='btn btn-warning']"));
             buttons.ElementAt(random.Next(1, buttons.Count)).Click();
             driver.FindElement(By.Id("LockoutEnd")).ClearAndSendValue(DateTime.Now.AddDays(random.Next(3, 20)).ToString("dd/MM/yyyy"));

@@ -31,8 +31,6 @@ namespace eCommerce.AutomatedUITests.Auth
             driver.FindElement(By.Id("PasswordConfirm")).ClearAndSendValue("Recep123.");
             driver.FindElement(By.Id("DateBirth")).ClearAndSendValue("02/02/1993");
             driver.FindElement(By.Id("Address")).ClearAndSendValue("Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
-            driver.FindElement(By.Id("TermsOfService")).Click();
-            driver.FindElement(By.Id("ReceiveMessages")).Click();
             driver.FindElement(By.Id("SignUp")).Click();
             Assert.Equal("Index - eCommerce", driver.Title);
         }

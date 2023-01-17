@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
 namespace eCommerce.AutomatedUITests.Admin
@@ -8,7 +7,7 @@ namespace eCommerce.AutomatedUITests.Admin
     {
         private readonly IWebDriver driver;
 
-        public CategoryTest() => driver = new ChromeDriver(Config.DriverDirectory);
+        public CategoryTest() => driver = Config.ChromeDriver;
 
         [Fact]
         public void Add()
@@ -28,12 +27,10 @@ namespace eCommerce.AutomatedUITests.Admin
         [Fact]
         public void Delete()
         {
-            var random = new Random();
             driver.LoginAsAdmin();
             driver.Navigate().GoToUrl($"{Config.AppUrl}/Admin/Category/Index");
             new SelectElement(driver.FindElement(By.Name("categories_length"))).SelectByIndex(3);
-            var buttons = driver.FindElements(By.CssSelector("a[class='btn btn-danger']"));
-            buttons.ElementAt(random.Next(0, buttons.Count)).Click();
+            driver.ClickElementRandomly("a[class='btn btn-danger']");
         }
 
         [Fact]
@@ -43,12 +40,15 @@ namespace eCommerce.AutomatedUITests.Admin
             driver.LoginAsAdmin();
             driver.Navigate().GoToUrl($"{Config.AppUrl}/Admin/Category/Index");
             new SelectElement(driver.FindElement(By.Name("categories_length"))).SelectByIndex(3);
-            var buttons = driver.FindElements(By.CssSelector("a[class='btn btn-success']"));
-            buttons.ElementAt(random.Next(0, buttons.Count)).Click();
+            driver.ClickElementRandomly("a[class='btn btn-success']");
             if (random.Next(0, 2) % 2 == 0)
             {
-                var category = new SelectElement(driver.FindElement(By.Id("ParentCategoryId")));
-                category.SelectByIndex(random.Next(1, category.Options.Count));
+                var element = driver.FindElement(By.Id("NewParentCategoryId"));
+                if (element.Enabled)
+                {
+                    var category = new SelectElement(element);
+                    category.SelectByIndex(random.Next(1, category.Options.Count));
+                }
             }
             driver.FindElement(By.Id("Name")).ClearAndSendValue($"update category {DateTime.Now.Millisecond}");
             driver.FindElement(By.Id("Update")).Click();
