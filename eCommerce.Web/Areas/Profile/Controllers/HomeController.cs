@@ -87,7 +87,7 @@ namespace eCommerce.Web.Areas.Profile.Controllers
         public async Task<IActionResult> DeleteComment(Guid id)
         {
             await commentService.DeleteCommentAsync(id);
-            return RedirectToAction("Comments", "Profile", new { Area = "Profile" });
+            return RedirectToAction("Comments", "Home", new { Area = "Profile" });
         }
     }
 }
